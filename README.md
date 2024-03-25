@@ -1,5 +1,6 @@
-# Projeto Segurança Informática
-## Grupo
+# Trabalho de grupo Segurança Informática
+## S-TEAM -> SEE-U-L4TER
+### Grupo
 - Afonso Martins (a45858)
 - Alexandre Pedro (a45626)
 - Diogo Ferreira (a46198)
