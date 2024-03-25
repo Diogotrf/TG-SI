@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="../Styles/register.css">
+
+    <title>Register</title>
+</head>
+
+<body>
+    <div class="register-box">
+        <h2>Register</h2>
+        <form id="registerForm">
+            <div class="user-box">
+                <input type="text" name="" id="Username" required="">
+                <label>Username</label>
+            </div>
+            <div class="user-box">
+                <input type="text" name="" id="Email" required="">
+                <label>Email</label>
+            </div>
+            <div class="user-box">
+                <input type="password" name="" id="Password" required="">
+                <label>Password</label>
+            </div>
+            <div class="user-box">
+                <input type="password" name="" id="ConfirmPassword" required="">
+                <label>Confirm Password</label>
+            </div>
+            <div class="submit-box">
+                <button onclick="register()">Register</button>
+            </div>
+            <br>
+            <div class="submit-box">
+                <button onclick="gotoLoginPage()">Go Back</button>
+            </div>
+        </form>
+    </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<script src="../Scripts/register.js"></script>
+
+</html>
