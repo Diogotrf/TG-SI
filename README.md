@@ -1,4 +1,4 @@
-# Trabalho de grupo Segurança Informática
+# Trabalho de Grupo Segurança Informática
 ## S-TEAM -> SEE-U-L4TER
 ### Grupo
 - Afonso Martins (a45858)
