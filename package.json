@@ -1,0 +1,20 @@
+{
+  "name": "tg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Diogotrf/TG-SI.git"
+  },
+  "private": true,
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2",
+    "mssql": "^10.0.2",
+    "serve-static": "^1.15.0"
+  }
+}
