@@ -6,3 +6,8 @@
 - Diogo Ferreira (a46198)
 - Rodrigo Fonseca (a48658)
 - Emanuel Pacheco (a47712)
+
+### Como usar
+1. Clonar o repositório
+2. Executar o comando ```node .\server.js``` com o terminal na pasta do projeto
+3. Aceder ao endereço ```http://localhost:3000/``` no browser
