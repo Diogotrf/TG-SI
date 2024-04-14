@@ -50,21 +50,30 @@ app.post('/',async (req, res, next) => {
 
             // Query the 'User' collection for docu ments with a specific email
             const querySnapshot = await getDocs(query(users, where('Email', '==', email)));
-            querySnapshot.forEach((doc) => {
-                const user = doc.data();
-                if (user.Password == sha1(pass+user.salt)) {
-                    console.log('Login successful!');
-                    const login={
-                        state:"true"
-                    };
-                    res.send(login);
-                }else{
-                    const login={
-                        state:"false"
-                    };
-                    res.send(login);
-                }
-            });
+            if (querySnapshot.docs.length == 0) {
+                console.log('Email not found. Please register.');
+                const login={
+                    state:"false"
+                };
+                res.send(login);
+            }else{
+                console.log(querySnapshot.docs.length);
+                querySnapshot.forEach((doc) => {
+                    const user = doc.data();
+                    if (user.Password == sha1(pass+user.salt)) {
+                        console.log('Login successful!');
+                        const login={
+                            state:"true"
+                        };
+                        res.send(login);
+                    }else{
+                        const login={
+                            state:"false"
+                        };
+                        res.send(login);
+                    }
+                });
+            }
         } catch (error) {
             console.error('Error fetching users:', error);
             res.status(500).send('Internal Server Error');
