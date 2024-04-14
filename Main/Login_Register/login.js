@@ -28,6 +28,7 @@ const container = document.querySelector(".container"),
     // js code to appear signup and login form
     signUp.addEventListener("click", ( )=>{
         container.classList.add("active");
+
     });
     login.addEventListener("click", ( )=>{
         container.classList.remove("active");
@@ -75,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         const username = loginForm.querySelector('input[id="username"]').value;
         const password = loginForm.querySelector('input[id="password"]').value;
-        loginUser(username, password);
+        login1(username, password);
     });
 
     // Event listener for signup form submission
@@ -84,14 +85,47 @@ document.addEventListener('DOMContentLoaded', function() {
         const name = signupForm.querySelector('input[id="username"]').value;
         const email = signupForm.querySelector('input[id="email"]').value;
         const password = signupForm.querySelector('input[id="password"]').value;
-        const confirmPassword = signupForm.querySelector('input[id="confirmPassword"]').value;        
-        console.log(name, email, password, confirmPassword);
-        if (password !== confirmPassword) {
-            alert('Passwords do not match. Please try again.');
-            return;
-        }
-        registerUser(name, email, password);
+        const confirmPassword = signupForm.querySelector('input[id="confirmPassword"]').value;
+        register(name, email, password);
         // Reset page to login form
         container.classList.remove("active");
         });
 });
+
+
+function login1(email, password){
+    let status="true";
+
+    $.ajax({
+        type: 'POST',
+        url: "http://localhost:3000/",//Rota
+        data: { emailVar: email, passwordVar: password, action: "login" }
+    })
+        .done(function(response){
+            if(response.state == "true"){
+                console.log("Login successful!");
+                window.location.href = '/Home';
+            }else{
+                console.log("Login failed!");
+                alert('Invalid username or password. Please try again.');
+            }
+        });
+}
+function register(name, email, password){
+    let status="true";
+    $.ajax({
+        type: 'POST',
+        url: "http://localhost:3000/",//Rota
+        data: { emailVar: email, passwordVar: password,nameVar:name, action: "register" }
+    })
+        .done(function(response){
+            if(response.state == "true"){
+                console.log("Registration successful!");
+                alert('Registration successful! You can now login.');
+                window.location.href = '/';
+            }else{
+                console.log("Registration failed!");
+                alert('Email already registered. Please use a different email.');
+            }
+        });
+}
