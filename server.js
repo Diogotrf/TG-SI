@@ -13,7 +13,7 @@ app.listen(3000)
 
 app.get('/',(req,res)=>{
     //app.use(serveStatic('./Pages/Login'));
-    res.sendFile('./Main/Login & Register/login.html',{root: __dirname})
+    res.sendFile('Main/Login_Register/login.html',{root: __dirname})
 })
 
 //app.post('/',(req, res,next)=>{
@@ -59,6 +59,6 @@ app.get('/',(req,res)=>{
 //    }
 //})
 
-app.use((req, res)=>{
-    res.status(404).sendFile('./Pages/404/404.html',{root: __dirname})
-})
+//app.use((req, res)=>{
+//    res.status(404).sendFile('./Pages/404/404.html',{root: __dirname})
+//})
