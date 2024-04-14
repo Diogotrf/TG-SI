@@ -13,7 +13,7 @@ app.listen(3000)
 
 app.get('/',(req,res)=>{
     //app.use(serveStatic('./Pages/Login'));
-    res.sendFile('./Main/Pages/login.html',{root: __dirname})
+    res.sendFile('./Main/Login & Register/login.html',{root: __dirname})
 })
 
 //app.post('/',(req, res,next)=>{
