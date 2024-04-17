@@ -129,5 +129,5 @@ app.get('/Home', async (req, res) => {
 });
 
 app.use((req, res)=>{
-    res.status(404).sendFile('./Pages/404/404.html',{root: __dirname})
+    res.status(404).sendFile('Main/404/404.html',{root: __dirname})
 })
