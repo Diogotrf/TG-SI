@@ -24,10 +24,15 @@ const firebaseConfig = {
 };
 const firebaseApp = initializeApp(firebaseConfig)
 const db = getFirestore(firebaseApp)
+let userInfo={
+    ID:"BrL9FoGutzTOsPBoeiE0",
+    Name:"zeTugs",
+};
 
 //Fazer o listen
 app.listen(3000)
 const users = collection(db, 'User');
+const chypers = collection(db, 'Cyphers');
 
 app.get('/', async (req, res) => {
     //app.use(serveStatic('./Pages/Login'));
@@ -66,6 +71,8 @@ app.post('/',async (req, res, next) => {
                             state:"true"
                         };
                         res.send(login);
+                        userInfo.ID=doc.id;
+                        userInfo.Name=user.UserName;
                     }else{
                         const login={
                             state:"false"
@@ -124,8 +131,24 @@ app.post('/',async (req, res, next) => {
 })
 
 app.get('/Home', async (req, res) => {
-    //app.use(serveStatic('./Pages/Login'));
     res.sendFile('Main/Home/home.html', { root: __dirname });
+});
+app.get('/Home/Info', async (req, res) => {
+    res.json(userInfo);
+});
+
+app.get('/AtualChypers', async (req, res) => {
+    const querySnapshot = await getDocs(query(chypers));
+    const chypersList = [];
+    const diaAtual=new Date();
+
+    querySnapshot.forEach((doc) => {
+        const dia=doc.data().Unlock.toDate();
+        if (dia.getDate() === diaAtual.getDate() && dia.getMonth() === diaAtual.getMonth() && dia.getFullYear() === diaAtual.getFullYear() && dia.getHours() === diaAtual.getHours()){
+            chypersList.push(doc.data());
+        }
+    });
+    res.send(chypersList);
 });
 
 app.use((req, res)=>{
