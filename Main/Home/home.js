@@ -10,3 +10,7 @@
 //        console.log(data)
 //        console.log(error);
 //    });
+
+
+sha256 = require('js-sha256');
+console.log(sha256.sha256(document.nome.value()+document.secret.value()+document.time.value()));
