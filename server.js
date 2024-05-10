@@ -145,14 +145,13 @@ app.get('/Home/Info', async (req, res) => {
 
 app.get('Home/AtualChypers', async (req, res) => {
     const querySnapshot = await getDocs(query(chypers));
-    const cifraLogined = await getDocs(query(chypers));
     const chypersList = [];
     const diaAtual=new Date();
 
     querySnapshot.forEach((doc) => {
         const dia=doc.data().Time.toDate();
         if (dia.getDate() === diaAtual.getDate() && dia.getMonth() === diaAtual.getMonth() && dia.getFullYear() === diaAtual.getFullYear() && dia.getHours() === diaAtual.getHours()){
-            chypersList.push([doc.data().UserName,sha256.sha256(doc.data().Email || dia || notThatSecretWinkWink)]);
+            chypersList.push([doc.data().UserName,sha256.sha256(doc.data().Email || dia || notThatSecretWinkWink),doc.data().CypherType,doc.data().HMACType]);
         }
     });
     res.send(chypersList);
@@ -162,10 +161,14 @@ app.post('/Home/Cypher', async (req, res,next) => {
     const email = req.body.emailVar;
     const time = req.body.timeVar;
     const nome= req.body.nameVar;
+    const cifra = req.body.CypherType;
+    const hmac = req.body.HMACType;
     const cypher = {
         UserName: nome,
         Email: email,
-        Time: time
+        Time: time,
+        CypherType: cifra,
+        HMACType:hmac
     }
     if (!loginState){
         try {
@@ -197,8 +200,20 @@ app.post('/Home/Cypher', async (req, res,next) => {
 });
 
 app.get('/MyCyphers', async (req, res) => {
-
+    const diaAtual=new Date();
+    let out=[];
+    const cifraLogined = await getDocs(query(loginedChypers));
+    cifraLogined.forEach((doc) => {
+        const dia=doc.data().Time.toDate();
+        if(doc.data().UserID===userInfo.ID) {
+            if (dia < diaAtual) {
+                out.push(doc.data().KEY);
+            }
+        }
+    });
+    res.send(out);
 });
+
 app.use((req, res)=>{
     res.status(404).sendFile('Main/404/404.html',{root: __dirname})
 })
