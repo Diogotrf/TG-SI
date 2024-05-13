@@ -14,3 +14,5 @@
 
 sha256 = require('js-sha256');
 console.log(sha256.sha256(document.nome.value()+document.secret.value()+document.time.value()));
+
+// When post button is clicked, go to the post page

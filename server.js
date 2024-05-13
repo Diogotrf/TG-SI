@@ -139,6 +139,10 @@ app.post('/',async (req, res, next) => {
 app.get('/Home', async (req, res) => {
     res.sendFile('Main/Home/home.html', { root: __dirname });
 });
+
+app.get('/Home/Post', async (req, res) => {
+    res.sendFile('Main/Home/postWindow.html', { root: __dirname });
+});
 app.get('/Home/Info', async (req, res) => {
     res.json(userInfo);
 });
