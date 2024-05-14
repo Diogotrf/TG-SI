@@ -25,13 +25,18 @@ label {
     margin-bottom: 5px;
 }
 
-input, select {
+select,
+input {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
+    height: 30px;
+    margin: 0 auto;
     border: 1px solid #ccc;
     border-radius: 5px;
+    box-sizing: border-box;
+    padding: 0 10px;
 }
+
+
 
 button {
     display: block;
