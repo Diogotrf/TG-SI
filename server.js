@@ -30,6 +30,7 @@ let loginState = false;
 let userInfo={
     ID:"BrL9FoGutzTOsPBoeiE0",
     Name:"zeTugs",
+    Email:"afonsomartinspaivamiguel@gmail.com"
 };
 
 //Fazer o listen
@@ -79,6 +80,7 @@ app.post('/',async (req, res, next) => {
                         res.send(login);
                         userInfo.ID=doc.id;
                         userInfo.Name=user.UserName;
+                        userInfo.Email=user.Email;
                     }else{
                         const login={
                             state:"false"
