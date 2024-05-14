@@ -54,20 +54,22 @@ function submitPost(event) {
     formData.append('cypherType', cypherType);
     formData.append('hmacType', hmacType);
 
+    //PARA ISTO FUNCIONAR PRECISA DE <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> NO HTML
     // Send the post data to the server
-    fetch('/Home/Cypher', {
-        method: 'POST',
-        body: formData
+    $.ajax({
+        type: 'POST',
+        url: "http://localhost:3000/Home/Cypher",
+        data: {
+            UserName: username,
+            Email: email,
+            Time: Date.parse(time),
+            CypherType: cypherType,
+            HMACType: hmacType
+        }
     })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to submit post');
-            }
-            console.log('Post submitted successfully');
-            return response.json(); // Return the response body if needed
-        })
-        .catch(error => {
-            console.error('Error submitting post:', error);
+        .done(function (response) {
+            console.log(response[0]);//ESTE VALOR É A CHAVE PRA CIFRAR O FICHEIRO
+
         });
 }
 

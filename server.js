@@ -9,7 +9,7 @@ const sha1 = require('sha1');
 const { addDoc } = require('firebase/firestore/lite');
 const sha256 = require('js-sha256');
 const openSSL = require('openssl');
-const firebase = require("firebase/compat");
+const Timestamp = require('firebase/firestore');
 app.use(express.static('Main'))
 app.use(express.urlencoded({extended: true}))
 app.use(bodyParser.json());
@@ -165,15 +165,16 @@ app.get('Home/AtualChypers', async (req, res) => {
 });
 
 app.post('/Home/Cypher', async (req, res,next) => {
-    const email = req.body.emailVar;
-    const time = req.body.timeVar;
-    const nome= req.body.nameVar;
+    const email = req.body.Email;
+    const time = req.body.Time;
+    const nome= req.body.UserName;
     const cifra = req.body.CypherType;
     const hmac = req.body.HMACType;
+    console.log(req.body);
     const cypher = {
         UserName: nome,
         Email: email,
-        Time: firebase.firestore.Timestamp.fromDate(time),
+        Time: time,
         CypherType: cifra,
         HMACType:hmac
     }
@@ -221,6 +222,9 @@ app.get('/MyCyphers', async (req, res) => {
     res.send(out);
 });
 
+app.get('/teste', async (req, res) => {
+    console.log('teste');
+});
 app.use((req, res)=>{
     res.status(404).sendFile('Main/404/404.html',{root: __dirname})
 })
