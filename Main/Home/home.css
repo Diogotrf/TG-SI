@@ -150,6 +150,11 @@ body {
     margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
+    cursor: pointer;
+}
+
+.postBox__postButton:hover {
+    background-color: #4095c6;
 }
 
 /* post */

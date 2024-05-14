@@ -65,4 +65,5 @@ document.getElementById("postButton").addEventListener("click", submitPost);
 // Function to go back to the home page
 function goBack() {
     window.location.href = "/Home";
+    console.log("Going back to home page")
 }
