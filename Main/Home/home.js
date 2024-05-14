@@ -12,10 +12,19 @@
 //    });
 
 
-sha256 = require('js-sha256');
-console.log(sha256.sha256(document.nome.value()+document.secret.value()+document.time.value()));
-
 // When post button is clicked, go to the Home/Post
 function openPost() {
     window.location.href = "/Home/Post";
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetch('/Home/Info')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("username").textContent = data.Name;
+            document.getElementById("email").textContent = data.Email;
+        })
+        .catch(error => {
+            console.error('Erro ao buscar as informações do usuário:', error);
+        });
+});
