@@ -187,6 +187,7 @@ app.post('/Home/Cypher', async (req, res,next) => {
             console.error('Error adding cypher: ', error);
             res.status(500);
         }
+
     }else{
         try {
             const userCypher={
