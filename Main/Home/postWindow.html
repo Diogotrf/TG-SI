@@ -10,13 +10,13 @@
 <h2>Create a New Post</h2>
 <form id="postForm">
     <label for="username">Username:</label><br>
-    <input type="text" id="username" name="username"><br><br>
+    <input type="text" id="username" name="username" readonly><br><br>
 
     <label for="email">Email:</label><br>
-    <input type="text" id="email" name="email"><br><br>
+    <input type="text" id="email" name="email" readonly><br><br>
 
     <label for="time">Time:</label><br>
-    <input type="text" id="time" name="time" readonly><br><br>
+    <input type="datetime-local" id="time" name="time"><br><br>
 
     <label for="cypherType">Cypher:</label><br>
     <select id="cypherType" name="cypherType">
@@ -26,63 +26,17 @@
 
     <label for="hmacType">HMAC Type:</label><br>
     <select id="hmacType" name="hmacType">
-        <option value="MD5">MD5</option>
-        <option value="SHA-256">SHA-256</option>
+        <option value="256">256</option>
+        <option value="512">512</option>
     </select><br><br>
 
+    <!-- File upload input -->
+    <label for="file">Upload File:</label><br>
+    <input type="file" id="file" name="file"><br><br>
+
     <button id="postButton">Submit</button>
+    <button id="goBackButton" onclick="goBack()">Back</button>
 </form>
-<script>
-    // Get the current time
-    var currentTime = new Date();
-    var hours = currentTime.getHours();
-    var minutes = currentTime.getMinutes();
-    var time = hours + ":" + minutes;
-
-    // Set the value of the time input field
-    document.getElementById("time").value = time;
-
-    // Function to submit the post
-    function submitPost(event) {
-        event.preventDefault();
-
-        // Get the post data from the form
-        var username = document.getElementById("username").value;
-        var email = document.getElementById("email").value;
-        var time = document.getElementById("time").value;
-        var cypherType = document.getElementById("cypherType").value;
-        var hmacType = document.getElementById("hmacType").value;
-
-        // Send the post data to the server
-        fetch('/Home/Cypher', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                body: {
-                    username: username,
-                    email: email,
-                    time: time,
-                    cypherType: cypherType,
-                    hmacType: hmacType
-                }
-            })
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to submit post');
-                }
-                console.log('Post submitted successfully');
-                return response.json(); // Return the response body if needed
-            })
-            .catch(error => {
-                console.error('Error submitting post:', error);
-            });
-    }
-
-    // Add event listener to the submit button
-    document.getElementById("postButton").addEventListener("click", submitPost);
-</script>
+<script src="postWindow.js"></script>
 </body>
 </html>
