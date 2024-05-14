@@ -172,7 +172,7 @@ app.post('/Home/Cypher', async (req, res,next) => {
     const cypher = {
         UserName: nome,
         Email: email,
-        Time: time,
+        Time: firebase.firestore.Timestamp.fromDate(time),
         CypherType: cifra,
         HMACType:hmac
     }
