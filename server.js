@@ -9,6 +9,7 @@ const sha1 = require('sha1');
 const { addDoc } = require('firebase/firestore/lite');
 const sha256 = require('js-sha256');
 const openSSL = require('openssl');
+const firebase = require("firebase/compat");
 app.use(express.static('Main'))
 app.use(express.urlencoded({extended: true}))
 app.use(bodyParser.json());
