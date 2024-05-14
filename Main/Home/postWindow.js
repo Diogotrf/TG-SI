@@ -10,13 +10,25 @@ var time = year + "-" + month + "-" + day + "T" + hours;
 document.getElementById("time").value = time;
 
 
-// Get the username and email from the local storage
-var username = localStorage.getItem("username");
-var email = localStorage.getItem("email");
+
+
 
 // Set the value of the username and email input fields
-document.getElementById("username").value = username;
-document.getElementById("email").value = email;
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetch('/Home/Info')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("username").value = data.Name;
+            document.getElementById("email").value = data.Email;
+        })
+        .catch(error => {
+            console.error('Erro ao buscar as informações do usuário:', error);
+        });
+});
+
+
+
 
 // Function to submit the post
 function submitPost(event) {
@@ -67,3 +79,5 @@ function goBack() {
     window.location.href = "/Home";
     console.log("Going back to home page")
 }
+
+
