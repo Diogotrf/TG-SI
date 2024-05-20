@@ -150,13 +150,22 @@ app.get('/Home/Info', async (req, res) => {
     res.json(userInfo);
 });
 
-app.get('Home/AtualChypers', async (req, res) => {
+app.get('/AtualChypers', async (req, res) => {
     const querySnapshot = await getDocs(query(chypers));
     const chypersList = [];
     const diaAtual=new Date();
 
     querySnapshot.forEach((doc) => {
-        const dia=doc.data().Time.toDate();
+        const dia=new Date(parseInt(doc.data().Time));
+
+        let sameDayAndTime = (
+            dia.getUTCDate() === diaAtual.getUTCDate() &&
+            dia.getUTCMonth() === diaAtual.getUTCMonth() &&
+            dia.getUTCFullYear() === diaAtual.getUTCFullYear() &&
+            dia.getUTCHours() === diaAtual.getUTCHours() &&
+            dia.getUTCMinutes() === diaAtual.getUTCMinutes()
+        );
+
         if (dia.getDate() === diaAtual.getDate() && dia.getMonth() === diaAtual.getMonth() && dia.getFullYear() === diaAtual.getFullYear() && dia.getHours() === diaAtual.getHours()){
             chypersList.push([doc.data().UserName,sha256.sha256(doc.data().Email || dia || notThatSecretWinkWink),doc.data().CypherType,doc.data().HMACType]);
         }
@@ -198,14 +207,13 @@ app.post('/Home/Cypher', async (req, res,next) => {
             res.send([sha256.sha256(email+time+notThatSecretWinkWink)]);
             const docRef = await addDoc(chypers, cypher);
             const docRef2 = await addDoc(loginedChypers, userCypher);
+            console.log('Cypher added with ID: ', docRef2.id);
             console.log('Cypher added with ID: ', docRef.id);
         } catch (error) {
             console.error('Error adding cypher: ', error);
             res.status(500);
         }
-
     }
-
 });
 
 app.get('/MyCyphers', async (req, res) => {
@@ -213,14 +221,14 @@ app.get('/MyCyphers', async (req, res) => {
     let out=[];
     const cifraLogined = await getDocs(query(loginedChypers));
     cifraLogined.forEach((doc) => {
-        const dia=doc.data().Time.toDate();
+        const dia=parseInt(doc.data().Time);
         if(doc.data().UserID===userInfo.ID) {
-            if (dia < diaAtual) {
-                out.push(doc.data().KEY);
+            if (dia < parseInt(Date.parse(diaAtual))) {
+                out.push( doc.data().KEY);
             }
         }
     });
-    res.send(out);
+    res.json(out);
 });
 
 app.get('/teste', async (req, res) => {
