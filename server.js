@@ -152,7 +152,7 @@ app.get('/Home/Info', async (req, res) => {
     res.json(userInfo);
 });
 
-app.get('/AtualChypers', async (req, res) => {
+app.get('/AtualCyphers', async (req, res) => {
     const querySnapshot = await getDocs(query(chypers));
     const chypersList = [];
     const diaAtual=new Date();

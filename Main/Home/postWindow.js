@@ -19,6 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch('/Home/Info')
         .then(response => response.json())
         .then(data => {
+            if (data.Name == '') {
+                window.location.href = "/Home";
+            }
             document.getElementById("username").value = data.Name;
             document.getElementById("email").value = data.Email;
         })
@@ -84,7 +87,6 @@ function submitPost(event) {
     })
         .done(function (response) {
             console.log(response[0]);//ESTE VALOR É A CHAVE PRA CIFRAR O FICHEIRO
-
         });
 }
 

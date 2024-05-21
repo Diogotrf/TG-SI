@@ -22,7 +22,7 @@ function createPost(name, username, text) {
     const headerTextDiv = document.createElement('div');
     headerTextDiv.className = 'post__headerText';
     const headerTextH3 = document.createElement('h3');
-    headerTextH3.innerHTML = `${name} <span class="post__headerSpecial"><span class="material-icons post__badge"> verified </span>@${username}</span>`;
+    headerTextH3.innerHTML = `${name} <span class="post__headerSpecial"><span class="material-icons post__badge"> verified </span>${username}</span>`;
     headerTextDiv.appendChild(headerTextH3);
 
     headerDiv.appendChild(headerTextDiv);

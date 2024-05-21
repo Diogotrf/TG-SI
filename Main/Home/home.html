@@ -16,9 +16,10 @@
 </head>
 <body>
 <!-- feed starts -->
-<div class="feed">
+<div class="feed" id="container">
     <div class="feed__header">
         <h2>Home</h2>
+        <button id="logout_button" type="button" class="logoutBox__logoutButton" onclick="window.location.href = '/logout'">Post</button>
     </div>
 
     <!-- postbox starts -->
@@ -30,85 +31,33 @@
                         src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
                         alt=""
                 />
+
                 <h2 id="email" class="postBox__email"></h2>
             </div>
+            <span id="datetime"></span>
+            <script>
+                // create a function to update the date and time
+                function updateDateTime() {
+                    // create a new `Date` object
+                    const now = new Date();
+
+                    // get the current date and time as a string
+                    const currentDateTime = now.toLocaleString();
+
+                    // update the `textContent` property of the `span` element with the `id` of `datetime`
+                    document.querySelector('#datetime').textContent = currentDateTime;
+                }
+
+                // call the `updateDateTime` function every second
+                setInterval(updateDateTime, 1000);
+            </script>
             <!-- When button is clicked, call the function to open the post window -->
             <button id="post_button" type="button" class="postBox__postButton" onclick="openPost()">Post</button>
+            <button id="mycypher_button" type="button" class="postBox__postButton" onclick="openPost()">Post</button>
+            <button id="decypher_button" type="button" class="postBox__postButton" onclick="openPost()">Post</button>
         </form>
     </div>
     <!-- postbox ends -->
-
-    <!-- post starts -->
-    <div class="post">
-        <div class="post__avatar">
-            <img
-                    src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
-                    alt=""
-            />
-        </div>
-
-        <div class="post__body">
-            <div class="post__header">
-                <div class="post__headerText">
-                    <h3>
-                        Somanath Goudar
-                        <span class="post__headerSpecial"
-                        ><span class="material-icons post__badge"> verified </span>@somanathg</span
-                        >
-                    </h3>
-                </div>
-                <div class="post__headerDescription">
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
-                </div>
-            </div>
-            <img
-                    src="https://www.focus2move.com/wp-content/uploads/2020/01/Tesla-Roadster-2020-1024-03.jpg"
-                    alt=""
-            />
-            <div class="post__footer">
-                <span class="material-icons"> repeat </span>
-                <span class="material-icons"> favorite_border </span>
-                <span class="material-icons"> publish </span>
-            </div>
-        </div>
-    </div>
-    <!-- post ends -->
-
-    <!-- post starts -->
-    <div class="post">
-        <div class="post__avatar">
-            <img
-                    src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
-                    alt=""
-            />
-        </div>
-
-        <div class="post__body">
-            <div class="post__header">
-                <div class="post__headerText">
-                    <h3>
-                        Somanath Goudar
-                        <span class="post__headerSpecial"
-                        ><span class="material-icons post__badge"> verified </span>@somanathg</span
-                        >
-                    </h3>
-                </div>
-                <div class="post__headerDescription">
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
-                </div>
-            </div>
-            <img
-                    src="https://www.focus2move.com/wp-content/uploads/2020/01/Tesla-Roadster-2020-1024-03.jpg"
-                    alt=""
-            />
-            <div class="post__footer">
-                <span class="material-icons"> repeat </span>
-                <span class="material-icons"> favorite_border </span>
-                <span class="material-icons"> publish </span>
-            </div>
-        </div>
-    </div>
-    <!-- post ends -->
 </div>
 <!-- feed ends -->
 <script src="home.js"></script>
