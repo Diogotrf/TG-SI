@@ -82,4 +82,9 @@ document.addEventListener('DOMContentLoaded', () => {
             container.appendChild(post);
         });
     });
+
+    const homeButton = document.getElementById('homeButton');
+    homeButton.addEventListener('click', () => {
+        window.location.href = '/home'; // Substitua '/home' pelo URL correto da sua página inicial
+    });
 });
