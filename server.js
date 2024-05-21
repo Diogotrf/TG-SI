@@ -29,9 +29,9 @@ const firebaseApp = initializeApp(firebaseConfig)
 const db = getFirestore(firebaseApp)
 let loginState = false;
 let userInfo={
-    ID:"BrL9FoGutzTOsPBoeiE0",
-    Name:"zeTugs",
-    Email:"afonsomartinspaivamiguel@gmail.com"
+    ID:"",
+    Name:"",
+    Email:""
 };
 
 //Fazer o listen
@@ -138,7 +138,9 @@ app.post('/',async (req, res, next) => {
         }
     }
 })
-
+app.get('/Home/MyCyphers', async (req, res) => {
+    res.sendFile('Main/Home/myCyphers.html', { root: __dirname });
+});
 app.get('/Home', async (req, res) => {
     res.sendFile('Main/Home/home.html', { root: __dirname });
 });
@@ -233,6 +235,17 @@ app.get('/MyCyphers', async (req, res) => {
 
 app.get('/teste', async (req, res) => {
     console.log('teste');
+});
+app.get('/logout', async (req, res) => {
+    //app.use(serveStatic('./Pages/Login'));
+    loginState = false;
+    userInfo={
+        ID:"",
+        Name:"",
+        Email:""
+    };
+    res.redirect('/');
+
 });
 app.use((req, res)=>{
     res.status(404).sendFile('Main/404/404.html',{root: __dirname})

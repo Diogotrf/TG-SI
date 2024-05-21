@@ -21,8 +21,17 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch('/Home/Info')
         .then(response => response.json())
         .then(data => {
-            document.getElementById("username").textContent = data.Name;
-            document.getElementById("email").textContent = data.Email;
+            if (data.Name == '') {
+                document.getElementById("username").textContent = 'Guest';
+                document.getElementById("post_button").style.display = 'none';
+
+            }
+            else {
+                document.getElementById("username").textContent = data.Name;
+                document.getElementById("email").textContent = data.Email;
+                document.getElementById("post_button").style.display = 'block';
+            }
+
         })
         .catch(error => {
             console.error('Erro ao buscar as informações do usuário:', error);
