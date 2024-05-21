@@ -32,7 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Function to submit the post
 function submitPost(event) {
+
     event.preventDefault();
+
+
 
     // Get the post data from the form
     var username = document.getElementById("username").value;
@@ -44,6 +47,18 @@ function submitPost(event) {
     // Get the file
     var fileInput = document.getElementById('file');
     var file = fileInput.files[0];
+
+
+
+    if (new Date(time) <= new Date() || isNaN(new Date(time))){
+        alert("Please select a correct time");
+        return;
+    }
+    if (file == null) {
+        alert("Please select a file to upload");
+        return;
+    }
+
 
     // Create FormData object to send file data along with other form data
     var formData = new FormData();

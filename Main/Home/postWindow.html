@@ -17,7 +17,7 @@
     <input type="text" id="email" name="email" readonly><br><br>
 
     <label for="time">Time:</label><br>
-    <input type="datetime-local" id="time" name="time"><br><br>
+    <input type="datetime-local" id="time" name="time" required><br><br>
 
     <label for="cypherType">Cypher:</label><br>
     <select id="cypherType" name="cypherType">
@@ -33,7 +33,7 @@
 
     <!-- File upload input -->
     <label for="file">Upload File:</label><br>
-    <input type="file" id="file" name="file"><br><br>
+    <input type="file" id="file" name="file" required><br><br>
 
     <button type="button" id="postButton">Submit</button>
     <button type="button" id="goBackButton" onclick="goBack()">Back</button>
