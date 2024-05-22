@@ -82,25 +82,24 @@ function submitPost(event) {
 
 
                 //TA A DAR ERRO
-                //var arrayBuffer = e.target.result;
+                var arrayBuffer = e.target.result;
 //
 //
 //
-                //var wordArray = CryptoJS.lib.WordArray.create(arrayBuffer);
+                var wordArray = CryptoJS.lib.WordArray.create(arrayBuffer);
 //
-                //// Encrypt the file
-                //var encrypted = cypherType === "ECB" ? CryptoJS.AES.encrypt(wordArray, encryptionKey, {mode: CryptoJS.mode.ECB}).toString() : CryptoJS.AES.encrypt(wordArray, encryptionKey, {mode: CryptoJS.mode.CBC}).toString();
+                // Encrypt the file
+                var encrypted = cypherType === "CBC" ? CryptoJS.AES.encrypt(wordArray, encryptionKey, { mode: CryptoJS.mode.CBC }).toString() : CryptoJS.AES.encrypt(wordArray, encryptionKey, { mode: CryptoJS.mode.CTR }).toString();
+                // Create a blob from the encrypted data
+                var encryptedBlob = new Blob([encrypted], { type: "application/octet-stream" });
 //
-                //// Create a blob from the encrypted data
-                //var encryptedBlob = new Blob([encrypted], { type: "application/octet-stream" });
+
 //
-//
-//
-                //// Create a link element to download the file
-                //var link = document.createElement("a");
-                //link.href = window.URL.createObjectURL(encryptedBlob);
-                //link.download = file.name + ".aes";
-                //link.click();
+                // Create a link element to download the file
+                var link = document.createElement("a");
+                link.href = window.URL.createObjectURL(encryptedBlob);
+                link.download = file.name + ".aes";
+                link.click();
             };
             reader.readAsArrayBuffer(file);
         });
