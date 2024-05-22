@@ -167,9 +167,8 @@ app.get('/AtualCyphers', async (req, res) => {
             dia.getUTCHours() === diaAtual.getUTCHours() &&
             dia.getUTCMinutes() === diaAtual.getUTCMinutes()
         );
-
         if (dia.getDate() === diaAtual.getDate() && dia.getMonth() === diaAtual.getMonth() && dia.getFullYear() === diaAtual.getFullYear() && dia.getHours() === diaAtual.getHours()){
-            chypersList.push([doc.data().UserName,sha256.sha256(doc.data().Email || dia || notThatSecretWinkWink),doc.data().CypherType,doc.data().HMACType]);
+            chypersList.push([doc.data().UserName,sha256.sha256(doc.data().Email + Date.parse(dia.toString()) + notThatSecretWinkWink),doc.data().CypherType,doc.data().HMACType]);
         }
     });
     res.send(chypersList);
@@ -178,6 +177,7 @@ app.get('/AtualCyphers', async (req, res) => {
 app.post('/Home/Cypher', async (req, res,next) => {
     const email = req.body.Email;
     const time = req.body.Time;
+
     const nome= req.body.UserName;
     const cifra = req.body.CypherType;
     const hmac = req.body.HMACType;

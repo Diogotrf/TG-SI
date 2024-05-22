@@ -79,20 +79,28 @@ function submitPost(event) {
             // Read the file as an ArrayBuffer
             var reader = new FileReader();
             reader.onload = function(e) {
-                var arrayBuffer = e.target.result;
-                var wordArray = CryptoJS.lib.WordArray.create(arrayBuffer);
 
-                // Encrypt the file
-                var encrypted = CryptoJS.AES.encrypt(wordArray, encryptionKey).toString();
 
-                // Create a blob from the encrypted data
-                var encryptedBlob = new Blob([encrypted], { type: "application/octet-stream" });
-
-                // Create a link element to download the file
-                var link = document.createElement("a");
-                link.href = window.URL.createObjectURL(encryptedBlob);
-                link.download = file.name + ".encrypted";
-                link.click();
+                //TA A DAR ERRO
+                //var arrayBuffer = e.target.result;
+//
+//
+//
+                //var wordArray = CryptoJS.lib.WordArray.create(arrayBuffer);
+//
+                //// Encrypt the file
+                //var encrypted = cypherType === "ECB" ? CryptoJS.AES.encrypt(wordArray, encryptionKey, {mode: CryptoJS.mode.ECB}).toString() : CryptoJS.AES.encrypt(wordArray, encryptionKey, {mode: CryptoJS.mode.CBC}).toString();
+//
+                //// Create a blob from the encrypted data
+                //var encryptedBlob = new Blob([encrypted], { type: "application/octet-stream" });
+//
+//
+//
+                //// Create a link element to download the file
+                //var link = document.createElement("a");
+                //link.href = window.URL.createObjectURL(encryptedBlob);
+                //link.download = file.name + ".aes";
+                //link.click();
             };
             reader.readAsArrayBuffer(file);
         });

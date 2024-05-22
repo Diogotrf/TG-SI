@@ -75,8 +75,42 @@ function htmlPosts(username, key, cyphertype, hmactype) {
         var fileInput = document.createElement('input');
         fileInput.type = 'file';
         fileInput.click();
+        fileInput.onchange = function () {
+            var file = fileInput.files[0];
+            var reader = new FileReader();
+            reader.onload = function (e) {
+
+                //NAO ESTA A FUNCIONAR
+                //var encryptedData = e.target.result;
+                //var textDecoder = new TextDecoder("utf-8");
+//
+                //var encryptedDataString = textDecoder.decode(encryptedData);
+                //var desencryptedData;
+                //console.log(encryptedDataString);
+                //if (cyphertype === "ECB"){
+                //    desencryptedData = CryptoJS.AES.decrypt(encryptedDataString, key);
+                //}
+                //else{
+                //    desencryptedData = CryptoJS.AES.decrypt(encryptedDataString, key, { mode: CryptoJS.mode.CBC });
+                //}
+                //console.log(desencryptedData.toString());
+//
+                //var wordArray = CryptoJS.lib.WordArray.create(desencryptedData);
+                //var blob = new Blob([wordArray], { type: "application/octet-stream" });
+                //var link = document.createElement("a");
+                //link.href = URL.createObjectURL(blob);
+                //link.download = file.name.replace(".aes", "");
+                //link.click();
+
+            };
+            reader.readAsArrayBuffer(file);
+        };
 
         //decifrar futuramente
+
+
+
+
     };
     decypherButton.type = "button";
 
