@@ -102,6 +102,10 @@ function htmlPosts(username, key, cyphertype, hmactype) {
                 document.getElementById("username").textContent = 'Guest';
                 document.getElementById("email").textContent = 'guest@guest';
                 document.getElementById("post_button").style.display = 'none';
+                document.getElementById("mycypher_button").style.display = 'none';
+                document.getElementById("logout_button").textContent = 'Login';
+                document.getElementById("logout_button").className ="decypherBox__decypherButton"
+
 
             }
             else {

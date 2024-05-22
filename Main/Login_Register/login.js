@@ -130,3 +130,7 @@ function register(name, email, password){
             }
         });
 }
+function enterasGuest(){
+    window.location.href = '/logout';
+    window.location.href = '/Home';
+}

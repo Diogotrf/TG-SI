@@ -31,6 +31,56 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+function hexStringToUint8Array(hexString) {
+    if (hexString.length % 2 !== 0) {
+        throw new Error("Invalid hex string");
+    }
+    const byteArray = new Uint8Array(hexString.length / 2);
+    for (let i = 0; i < hexString.length; i += 2) {
+        byteArray[i / 2] = parseInt(hexString.substr(i, 2), 16);
+    }
+    return byteArray;
+}
+
+function importkey(rawkey){
+
+    return window.crypto.subtle.importKey(
+        "raw",
+        rawkey,
+        {
+            name : "AES-GCM",
+
+        },
+        true,
+        ["encrypt", "decrypt"]
+    )
+
+}
+
+function encryptFile(file, key,cyphertype,hmactype) {
+    var encrypteddata = null;
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        var data = e.target.result;
+        var encrypted = crypto.subtle.encrypt(
+            {
+                name: cyphertype,
+                iv: 0
+
+            },
+            importkey(hexStringToUint8Array(key)),
+            data
+            );
+        encrypteddata = encrypted;
+
+    }
+    reader.readAsDataURL(file);
+
+
+
+
+    return encrypteddata;
+}
 
 
 // Function to submit the post
@@ -63,7 +113,10 @@ function submitPost(event) {
 
     alert("File uploaded successfully, it will be downloaded");
 
-    //lógica download criptograma
+    //encript file
+
+
+
 
     // Create FormData object to send file data along with other form data
     var formData = new FormData();
@@ -89,7 +142,12 @@ function submitPost(event) {
     })
         .done(function (response) {
             console.log(response[0]);//ESTE VALOR É A CHAVE PRA CIFRAR O FICHEIRO
-            window.location.href = '/home';
+            // Encrypt the file
+            var encryptedFile = encryptFile(file, response[0]);
+            //download
+
+            console.log(encryptedFile);
+            //window.location.href = '/home';
         });
 }
 
