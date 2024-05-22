@@ -9,12 +9,7 @@ var time = year + "-" + month + "-" + day + "T" + hours;
 // Set the value of the time input field
 document.getElementById("time").value = time;
 
-
-
-
-
 // Set the value of the username and email input fields
-
 document.addEventListener('DOMContentLoaded', () => {
     fetch('/Home/Info')
         .then(response => response.json())
@@ -30,65 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 });
 
-
-function hexStringToUint8Array(hexString) {
-    if (hexString.length % 2 !== 0) {
-        throw new Error("Invalid hex string");
-    }
-    const byteArray = new Uint8Array(hexString.length / 2);
-    for (let i = 0; i < hexString.length; i += 2) {
-        byteArray[i / 2] = parseInt(hexString.substr(i, 2), 16);
-    }
-    return byteArray;
-}
-
-function importkey(rawkey){
-
-    return window.crypto.subtle.importKey(
-        "raw",
-        rawkey,
-        {
-            name : "AES-GCM",
-
-        },
-        true,
-        ["encrypt", "decrypt"]
-    )
-
-}
-
-function encryptFile(file, key,cyphertype,hmactype) {
-    var encrypteddata = null;
-    var reader = new FileReader();
-    reader.onload = function (e) {
-        var data = e.target.result;
-        var encrypted = crypto.subtle.encrypt(
-            {
-                name: cyphertype,
-                iv: 0
-
-            },
-            importkey(hexStringToUint8Array(key)),
-            data
-            );
-        encrypteddata = encrypted;
-
-    }
-    reader.readAsDataURL(file);
-
-
-
-
-    return encrypteddata;
-}
-
-
 // Function to submit the post
 function submitPost(event) {
-
     event.preventDefault();
-
-
 
     // Get the post data from the form
     var username = document.getElementById("username").value;
@@ -101,8 +40,7 @@ function submitPost(event) {
     var fileInput = document.getElementById('file');
     var file = fileInput.files[0];
 
-
-    if (new Date(time) <= new Date() || isNaN(new Date(time))){
+    if (new Date(time) <= new Date() || isNaN(new Date(time))) {
         alert("Please select a correct time");
         return;
     }
@@ -113,11 +51,6 @@ function submitPost(event) {
 
     alert("File uploaded successfully, it will be downloaded");
 
-    //encript file
-
-
-
-
     // Create FormData object to send file data along with other form data
     var formData = new FormData();
     formData.append('file', file);
@@ -127,7 +60,6 @@ function submitPost(event) {
     formData.append('cypherType', cypherType);
     formData.append('hmacType', hmacType);
 
-    //PARA ISTO FUNCIONAR PRECISA DE <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> NO HTML
     // Send the post data to the server
     $.ajax({
         type: 'POST',
@@ -141,13 +73,28 @@ function submitPost(event) {
         }
     })
         .done(function (response) {
-            console.log(response[0]);//ESTE VALOR É A CHAVE PRA CIFRAR O FICHEIRO
-            // Encrypt the file
-            var encryptedFile = encryptFile(file, response[0]);
-            //download
+            console.log(response[0]); // This value is the key to encrypt the file
+            var encryptionKey = response[0];
 
-            console.log(encryptedFile);
-            //window.location.href = '/home';
+            // Read the file as an ArrayBuffer
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var arrayBuffer = e.target.result;
+                var wordArray = CryptoJS.lib.WordArray.create(arrayBuffer);
+
+                // Encrypt the file
+                var encrypted = CryptoJS.AES.encrypt(wordArray, encryptionKey).toString();
+
+                // Create a blob from the encrypted data
+                var encryptedBlob = new Blob([encrypted], { type: "application/octet-stream" });
+
+                // Create a link element to download the file
+                var link = document.createElement("a");
+                link.href = window.URL.createObjectURL(encryptedBlob);
+                link.download = file.name + ".encrypted";
+                link.click();
+            };
+            reader.readAsArrayBuffer(file);
         });
 }
 
@@ -157,7 +104,5 @@ document.getElementById("postButton").addEventListener("click", submitPost);
 // Function to go back to the home page
 function goBack() {
     window.location.href = "/Home";
-    console.log("Going back to home page")
+    console.log("Going back to home page");
 }
-
-
