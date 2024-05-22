@@ -17,7 +17,6 @@ function openPost() {
     window.location.href = "/Home/Post";
 }
 
-
 // Function to make posts
 function htmlPosts(username, key, cyphertype, hmactype) {
     const postDiv = document.createElement('div');
@@ -67,11 +66,26 @@ function htmlPosts(username, key, cyphertype, hmactype) {
     hmactypeP.textContent = "HMAC Type: " + hmactype;
     hmactypeDiv.appendChild(hmactypeP);
 
+
+    const decypherButton = document.createElement('button');
+    decypherButton.className = 'decypherBox__decypherButton';
+    decypherButton.textContent = "Decypher";
+    decypherButton.id = "decypher_button";
+    decypherButton.onclick = function () {
+        var fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.click();
+
+        //decifrar futuramente
+    };
+    decypherButton.type = "button";
+
     // Monta o corpo do post
     bodyDiv.appendChild(headerDiv);
     bodyDiv.appendChild(keyDiv);
     bodyDiv.appendChild(cyphertypeDiv);
     bodyDiv.appendChild(hmactypeDiv);
+    bodyDiv.appendChild(decypherButton);
 
     // Monta o post
     postDiv.appendChild(avatarDiv);
@@ -80,9 +94,9 @@ function htmlPosts(username, key, cyphertype, hmactype) {
     return postDiv;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    fetch('/Home/Info')
-        .then(response => response.json())
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch('/Home/Info')
+            .then(response => response.json())
         .then(data => {
             if (data.Name == '') {
                 document.getElementById("username").textContent = 'Guest';

@@ -19,22 +19,27 @@
 <div class="feed" id="container">
     <div class="feed__header">
         <h2>Home</h2>
-        <button id="logout_button" type="button" class="logoutBox__logoutButton" onclick="window.location.href = '/logout'">Post</button>
+        <button id="mycypher_button" type="button" class="mycypherBox__mycypherButton" onclick="window.location.href = '/Home/MyCyphers'">MyCyphers</button>
+        <button id="logout_button" type="button" class="logoutBox__logoutButton" onclick="window.location.href = '/logout'">Logout</button>
     </div>
 
     <!-- postbox starts -->
     <div class="postBox">
         <form>
             <div class="postbox__input">
-                <h2 id="username" class="postBox__username"></h2>
                 <img
                         src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
                         alt=""
                 />
-
-                <h2 id="email" class="postBox__email"></h2>
+                <div class="user-email-container">
+                    <h2 id="username" class="postBox__username">Username</h2>
+                    <h2 id="email" class="postBox__email">Email@example.com</h2>
+                </div>
             </div>
-            <span id="datetime"></span>
+
+            <div class="datetime-container">
+                <span id="datetime"></span>
+            </div>
             <script>
                 // create a function to update the date and time
                 function updateDateTime() {
@@ -52,9 +57,9 @@
                 setInterval(updateDateTime, 1000);
             </script>
             <!-- When button is clicked, call the function to open the post window -->
-            <button id="post_button" type="button" class="postBox__postButton" onclick="openPost()">Post</button>
-            <button id="mycypher_button" type="button" class="postBox__postButton" onclick="openPost()">Post</button>
-            <button id="decypher_button" type="button" class="postBox__postButton" onclick="openPost()">Post</button>
+            <div class="Box__input">
+                <button id="post_button" type="button" class="postBox__postButton" onclick="openPost()">Post</button>
+            </div>
         </form>
     </div>
     <!-- postbox ends -->

@@ -87,15 +87,9 @@ body {
     justify-content: space-between;
     align-items: center; /* Assegura que os itens estejam alinhados verticalmente no centro */
     background-color: white;
-    z-index: 100;
     border: 1px solid var(--background);
     margin-top: 4%;
     padding: 15px 20px;
-}
-
-.feed__header h2 {
-    font-size: 20px;
-    font-weight: 800;
 }
 
 .feed::-webkit-scrollbar {
@@ -279,6 +273,5 @@ body {
     border-radius: 30px;
     width: 15%;
     height: 40px;
-    margin-left: 70%;
     cursor: pointer;
 }

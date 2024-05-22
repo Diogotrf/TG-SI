@@ -59,7 +59,6 @@ body {
 }
 
 .sidebar {
-    border-right: 1px solid var(--background);
     flex: 0.2;
 
     min-width: 250px;
@@ -76,25 +75,57 @@ body {
 /* feed */
 .feed {
     flex: 0.5;
-    border-right: 1px solid var(--background);
     min-width: fit-content;
     overflow-y: scroll;
     margin: 0 auto; /* Added to center the feed */
 }
 
 .feed__header {
-    position: sticky;
-    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: white;
     z-index: 100;
     border: 1px solid var(--background);
     padding: 15px 20px;
+    margin-top: 4%;
 }
 
 .feed__header h2 {
-    font-size: 20px;
-    font-weight: 800;
+    flex-grow: 1;  /* Allows the 'Home' header to take up remaining space, pushing buttons to the right */
 }
+
+.logoutBox__logoutButton, .mycypherBox__mycypherButton {
+    background-color: red;
+    border: none;
+    color: white;
+    font-weight: 900;
+    border-radius: 30px;
+    width: 15%;
+    height: 40px;
+    cursor: pointer;
+    margin-left: 1%;
+}
+
+.mycypherBox__mycypherButton {
+    background-color: var(--primary-color);
+}
+
+.logoutBox__logoutButton:hover, .mycypherBox__mycypherButton:hover {
+    background-color: #4095c6;
+}
+
+.datetime-container {
+    text-align: center; /* Centers text (and inline elements) horizontally within the container */
+    width: 100%;
+    margin: 3% 0%;/* Ensures the container spans the full width */
+}
+
+#datetime {
+    font-size: 16px; /* Set the font size as needed */
+}
+
+
 
 .feed::-webkit-scrollbar {
     display: none;
@@ -108,14 +139,31 @@ body {
 /* tweet box */
 .postbox__input img {
     border-radius: 50%;
-    height: 40px;
+    width: 15%;
+    margin: 1%;
+    align-self: center; /* Centraliza a imagem no meio da coluna */
 }
+
+.postbox__input {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza todos os itens na vertical */
+}
+
+.user-email-container {
+    display: flex;
+    flex-direction: column; /* Configura os itens para se alinharem verticalmente */
+    align-items: center; /* Centraliza os itens horizontalmente */
+    width: 100%; /* Garante que o contêiner tome a largura total */
+}
+
 
 .postBox {
     padding-bottom: 10px;
     border-bottom: 8px solid var(--background);
     padding-right: 10px;
     background-color: white;
+
 }
 
 .postBox form {
@@ -123,54 +171,25 @@ body {
     flex-direction: column;
 }
 
-.postbox__input {
+
+.Box__input {
     display: flex;
-    padding: 20px;
-    margin-left: auto;
-    margin-right: auto;
+    justify-content: center;  /* Aligns the buttons in the center of the container */
+    gap: 20px;                /* Adds space between the buttons */
 }
 
-.postbox__input input {
-    flex: 1;
-    margin-left: 20px;
-    font-size: 20px;
-    border: none;
-    outline: none;
-}
-
-.postBox__postButton {
+.postBox__postButton, .decypherBox__decypherButton {
     background-color: var(--primary-color);
     border: none;
     color: white;
     font-weight: 900;
-
     border-radius: 30px;
-    width: 12%;
+    width: 15%;
     height: 40px;
-    margin-top: 20px;
-    margin-left: auto;
-    margin-right: auto;
     cursor: pointer;
 }
 
-.postBox__postButton:hover {
-    background-color: #4095c6;
-}
-
-.logoutBox__logoutButton {
-    background-color: var(--primary-color);
-    border: none;
-    color: white;
-    font-weight: 900;
-
-    border-radius: 30px;
-    width: 12%;
-    height: 40px;
-    margin-left: 85%;
-    cursor: pointer;
-}
-
-.logoutBox__logoutButton:hover {
+.postBox__postButton:hover, .decypherBox__decypherButton:hover {
     background-color: #4095c6;
 }
 

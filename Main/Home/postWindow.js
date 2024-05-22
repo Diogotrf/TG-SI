@@ -52,7 +52,6 @@ function submitPost(event) {
     var file = fileInput.files[0];
 
 
-
     if (new Date(time) <= new Date() || isNaN(new Date(time))){
         alert("Please select a correct time");
         return;
@@ -62,6 +61,9 @@ function submitPost(event) {
         return;
     }
 
+    alert("File uploaded successfully, it will be downloaded");
+
+    //lógica download criptograma
 
     // Create FormData object to send file data along with other form data
     var formData = new FormData();
@@ -87,6 +89,7 @@ function submitPost(event) {
     })
         .done(function (response) {
             console.log(response[0]);//ESTE VALOR É A CHAVE PRA CIFRAR O FICHEIRO
+            window.location.href = '/home';
         });
 }
 
