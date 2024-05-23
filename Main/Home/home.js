@@ -79,12 +79,22 @@ function htmlPosts(username, key, cyphertype, hmactype) {
             var file = fileInput.files[0];
             var reader = new FileReader();
             reader.onload = function (e) {
-
-                //NAO ESTA A FUNCIONAR
                 var encryptedData = e.target.result;
                 var textDecoder = new TextDecoder("utf-8");
 //
                 var encryptedDataString = textDecoder.decode(encryptedData);
+
+                //get hmac
+                var hmaclength = 64;
+                var hmac = encryptedDataString.substring(0, hmaclength);
+                encryptedDataString = encryptedDataString.substring(hmaclength);
+
+                var calculatedHmac = CryptoJS.HmacSHA256(encryptedDataString, key).toString();
+                if (calculatedHmac != hmac) {
+                    alert("HMAC is not valid");
+                    return;
+                }
+
                 var desencryptedData
                 if (cyphertype == 'CBC') {
                     desencryptedData = CryptoJS.AES.decrypt(encryptedDataString, key, { mode: CryptoJS.mode.CBC });
@@ -105,9 +115,10 @@ function htmlPosts(username, key, cyphertype, hmactype) {
                 a.href = url;
                 a.download = file.name.replace('.aes', '');
                 a.click();
-
             };
+
             reader.readAsArrayBuffer(file);
+
         };
 
         //decifrar futuramente

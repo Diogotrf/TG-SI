@@ -177,7 +177,6 @@ app.get('/AtualCyphers', async (req, res) => {
 app.post('/Home/Cypher', async (req, res,next) => {
     const email = req.body.Email;
     const time = req.body.Time;
-
     const nome= req.body.UserName;
     const cifra = req.body.CypherType;
     const hmac = req.body.HMACType;

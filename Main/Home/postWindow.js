@@ -80,28 +80,34 @@ function submitPost(event) {
             var reader = new FileReader();
             reader.onload = function(e) {
 
-
-                //TA A DAR ERRO
                 var arrayBuffer = e.target.result;
-//
-//
-//
                 var wordArray = CryptoJS.lib.WordArray.create(arrayBuffer);
-//
+
                 // Encrypt the file
                 var encrypted = cypherType === "CBC" ? CryptoJS.AES.encrypt(wordArray, encryptionKey, { mode: CryptoJS.mode.CBC }).toString() : CryptoJS.AES.encrypt(wordArray, encryptionKey, { mode: CryptoJS.mode.CTR }).toString();
+
+                //create a hmac for the file
+                var hmac = CryptoJS.HmacSHA256(encrypted, encryptionKey).toString();
+
+                //combine the hmac and the encrypted file
+                encrypted = hmac + encrypted;
+
+
+
+
                 // Create a blob from the encrypted data
                 var encryptedBlob = new Blob([encrypted], { type: "application/octet-stream" });
-//
 
-//
+
                 // Create a link element to download the file
                 var link = document.createElement("a");
                 link.href = window.URL.createObjectURL(encryptedBlob);
                 link.download = file.name + ".aes";
                 link.click();
             };
+
             reader.readAsArrayBuffer(file);
+
         });
 }
 
