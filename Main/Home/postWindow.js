@@ -74,40 +74,63 @@ function submitPost(event) {
     })
         .done(function (response) {
             console.log(response[0]); // This value is the key to encrypt the file
+
             var encryptionKey = response[0];
+            var privateKey = response[1];
+
+
+
 
             // Read the file as an ArrayBuffer
             var reader = new FileReader();
             reader.onload = function(e) {
 
-                var arrayBuffer = e.target.result;
-                var wordArray = CryptoJS.lib.WordArray.create(arrayBuffer);
-
-                // Encrypt the file
-                var encrypted = cypherType === "CBC" ? CryptoJS.AES.encrypt(wordArray, encryptionKey, { mode: CryptoJS.mode.CBC }).toString() : CryptoJS.AES.encrypt(wordArray, encryptionKey, { mode: CryptoJS.mode.CTR }).toString();
-
-                //create a hmac for the file
-                var hmac = CryptoJS.HmacSHA256(encrypted, encryptionKey).toString();
-
-                //combine the hmac and the encrypted file
-                encrypted = hmac + encrypted;
 
 
+            var arrayBuffer = e.target.result;
+            var wordArray = CryptoJS.lib.WordArray.create(arrayBuffer);
+
+            // Encrypt the file
+            var encrypted = cypherType === "CBC" ? CryptoJS.AES.encrypt(wordArray, encryptionKey, { mode: CryptoJS.mode.CBC }).toString() : CryptoJS.AES.encrypt(wordArray, encryptionKey, { mode: CryptoJS.mode.CTR }).toString();
+
+            //create a hmac for the file
+            var hmac = CryptoJS.HmacSHA256(encrypted, encryptionKey).toString();
+
+            //combine the hmac and the encrypted file
+            encrypted = hmac + encrypted;
 
 
-                // Create a blob from the encrypted data
-                var encryptedBlob = new Blob([encrypted], { type: "application/octet-stream" });
 
 
-                // Create a link element to download the file
-                var link = document.createElement("a");
-                link.href = window.URL.createObjectURL(encryptedBlob);
-                link.download = file.name + ".aes";
-                link.click();
+
+            var rsa = new RSAKey();
+            rsa.readPrivateKeyFromPEMString(privateKey);
+
+
+
+
+
+            var signature = new KJUR.crypto.Signature({ "alg": "SHA256withRSA" });
+            signature.init(privateKey);
+            signature.updateString(encrypted);
+            var rsaSignature = signature.sign();
+
+            encrypted = rsaSignature + encrypted;
+
+
+
+
+            // Create a blob from the encrypted data
+            var encryptedBlob = new Blob([encrypted], { type: "application/octet-stream" });
+
+
+            // Create a link element to download the file
+            var link = document.createElement("a");
+            link.href = window.URL.createObjectURL(encryptedBlob);
+            link.download = file.name + ".aes";
+            link.click();
             };
-
             reader.readAsArrayBuffer(file);
-
         });
 }
 

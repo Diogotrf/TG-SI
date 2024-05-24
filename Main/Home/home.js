@@ -79,24 +79,64 @@ function htmlPosts(username, key, cyphertype, hmactype) {
             var file = fileInput.files[0];
             var reader = new FileReader();
             reader.onload = function (e) {
+
+
+
+
+                var rsaPublicKey = "-----BEGIN PUBLIC KEY-----"+
+"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyH9GdTsMIJoDNz4olC+6"+
+"sDf71y+6qUYvvc9nJMGKx+Ys/2r9bGa/3pimHgK88eoMEHv1io/CNQCyjJ5Vhe5C"+
+"ZmwdGT6gmjYnQzmbYwtM8kYKUckJBpSFoOTNdsEaS6TY+hhV1q2LLhpIF2m7M3Sb"+
+"mWdRemlawUM62u8m5G1Uxz9645tMqXeEfuoTbUW45+/Tif5tktn/DunzvI8ay18g"+
+"lHDx+nI+7z9BWzOxqhst3gXhE78xNImw2LXRZtv3LzTcV18Q966BdqT6OdvSPvTy"+
+"Y/gLVzzB4nlLZYPnEcIlgAMs3+SqtxIYJc4o0cLLb43kueEnOQ8nSFTF9Q9OtErk"+
+"oQIDAQAB"+
+"-----END PUBLIC KEY-----";
+
+
+
+
                 var encryptedData = e.target.result;
                 var textDecoder = new TextDecoder("utf-8");
-//
                 var encryptedDataString = textDecoder.decode(encryptedData);
 
-                //get hmac
+
+                //RSA FEITO so falta defenir as chaves publicas e privadas e onde
+                var rsaSignatureLength = 512; // Tamanho da assinatura RSA em base64 (ou ajuste conforme necessário)
+                var receivedRsaSignature = encryptedDataString.substring(0, rsaSignatureLength);
+                var combinedData = encryptedDataString.substring(rsaSignatureLength);
+//
+                //// Verify the RSA signature
+
+                var rsa = new KJUR.crypto.Signature({ "alg": "SHA256withRSA" });
+                rsa.init(rsaPublicKey);
+                rsa.updateString(combinedData);
+                var isValidSignature = rsa.verify(receivedRsaSignature);
+
+                if (!isValidSignature) {
+                    alert("RSA signature verification failed! Data integrity and authenticity compromised.");
+                    return;
+                }
+//
+//
+                ////get hmac
                 var hmaclength = 64;
-                var hmac = encryptedDataString.substring(0, hmaclength);
-                encryptedDataString = encryptedDataString.substring(hmaclength);
+                var hmac = combinedData.substring(0, hmaclength);
+                encryptedDataString = combinedData.substring(hmaclength);
+
+
+
+
+
 
                 var calculatedHmac = CryptoJS.HmacSHA256(encryptedDataString, key).toString();
-                if (calculatedHmac != hmac) {
+                if (calculatedHmac !== hmac) {
                     alert("HMAC is not valid");
                     return;
                 }
 
                 var desencryptedData
-                if (cyphertype == 'CBC') {
+                if (cyphertype === 'CBC') {
                     desencryptedData = CryptoJS.AES.decrypt(encryptedDataString, key, { mode: CryptoJS.mode.CBC });
                     desencryptedData = desencryptedData.toString(CryptoJS.enc.Utf8);
                 }

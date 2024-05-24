@@ -190,6 +190,9 @@ app.post('/Home/Cypher', async (req, res,next) => {
     }
     if (!loginState){
         try {
+
+
+
             res.send([sha256.sha256(email+time+notThatSecretWinkWink)]);
             const docRef = await addDoc(chypers, cypher);
             console.log('Cypher added with ID: ', docRef.id);
@@ -205,7 +208,34 @@ app.post('/Home/Cypher', async (req, res,next) => {
                 UserID:userInfo.ID,
                 Time: time
             }
-            res.send([sha256.sha256(email+time+notThatSecretWinkWink)]);
+            var private_Key = "-----BEGIN RSA PRIVATE KEY-----" +
+                "MIIEowIBAAKCAQEAyH9GdTsMIJoDNz4olC+6sDf71y+6qUYvvc9nJMGKx+Ys/2r9" +
+                "bGa/3pimHgK88eoMEHv1io/CNQCyjJ5Vhe5CZmwdGT6gmjYnQzmbYwtM8kYKUckJ" +
+                "BpSFoOTNdsEaS6TY+hhV1q2LLhpIF2m7M3SbmWdRemlawUM62u8m5G1Uxz9645tM" +
+                "qXeEfuoTbUW45+/Tif5tktn/DunzvI8ay18glHDx+nI+7z9BWzOxqhst3gXhE78x" +
+                "NImw2LXRZtv3LzTcV18Q966BdqT6OdvSPvTyY/gLVzzB4nlLZYPnEcIlgAMs3+Sq" +
+                "txIYJc4o0cLLb43kueEnOQ8nSFTF9Q9OtErkoQIDAQABAoIBAQCDMq3jZokwCDgU" +
+                "fStGlNkAGRJGJKhrvk7dUQu4hKGQ33EQjm1Y8v+Y5KDHQJltX+8XFlZ9nkbCMjuk" +
+                "QrPKGTgAF70O2Ol1H/yfQ+IHdMycOPLlw7yRPr0WpMJCdGgFmdCWDziUaymJOI92" +
+                "KqziJerv/ijWBnzpvFmWDCqSDW0Nl7TamCo2oB7R9OY3oUjGBNaFGKZH03UDypl5" +
+                "H6oNA+aUlfM6ywUB5+3/XtixqCu47mpjfvrPCmYXaxegT7J35UHRf8jxOxe9AZ/h" +
+                "vaa4jSTJZMBX6ZaxGMF06Dx2vLNF4+W9JSKSuOL5jYb/6CxWSFSId2SOXhxBhIkW" +
+                "IvJ6YeXBAoGBAP/bfBellWlz5ynca9JRaiIkSE7eJs+PxhdsR7CggtChN3IAvM+c" +
+                "yOu0xRuAwTlMpLm0qMcwt52ci4IHFhFvfBxuFpnae7PcqVFNY/J7RFV/4rD7RjGM" +
+                "rwNWv1+S/e0F4eFxTOD0Zay94/NS5h8asjNjhvqsEWHDslZPjCzxvD0ZAoGBAMib" +
+                "478bl4bPIKOi8QxA3/W2TdHEyggVt0NCKpZRxRBOjdfpuJaBjLbxx4NcV+AufRzg" +
+                "rqOq87336+ASPWa4rGN82CdCtdUzNG4WKuzRgo53LfFVrX59A0S/JJr8UKblgGh9" +
+                "tVUnbFbbP2hdWTTZo4JjhvsJGqwDSiZ4Df1YJ8zJAoGAM6tshQ4AfXpVnaOQ9rlQ" +
+                "WLLBE4RTjCk51PMeCzJvGJjmLJSvjLHZ9ZfdEm/PFbY/se0lBIz3F9JMbibmMwEz" +
+                "rD4jPFDeGHWgj/W0EH0KUMXxztH/2/PQSDlVjoSN2TcN5cxOvUM94UO77CC6rl9i" +
+                "y3P3B1qGbBrsQffwlAcBf8kCgYAdeKlwvgD40R0ebSW0gyNj2bB9DMgRf/84ZlQT" +
+                "WVf2GVRFUBTKJ6YgikyhQ8O1L585ythdOxQr6GxCsutKV/8bbo/i1K4Z8DfXpHIR" +
+                "8IWZoHCjb87ZMkx0oRAjpMXEfxrqPu2Q4QXNjNA36N7eIMsgsLZ30tKUSrduB10m" +
+                "xvix4QKBgBI8BK/V4mBiQALZHVJz/7ZYF++u7x0H0rEp3O0aeQTdeLehYySg64d+" +
+                "r3gre53ll0JMMa04/1/zsEpdXQrlonZcf53dLduFZw8BmLz37JetcymLCqU4WDlH" +
+                "1BoBAncq2Q7Dcnz+uNQK2D1IaMcIGoSxqO6XT2lHF+Aqyy6N0Cf7" +
+                "-----END RSA PRIVATE KEY-----";
+            res.send([sha256.sha256(email+time+notThatSecretWinkWink),private_Key]);
             const docRef = await addDoc(chypers, cypher);
             const docRef2 = await addDoc(loginedChypers, userCypher);
             console.log('Cypher added with ID: ', docRef2.id);
