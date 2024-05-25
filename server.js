@@ -14,9 +14,10 @@ app.use(express.static('Main'))
 app.use(express.urlencoded({extended: true}))
 app.use(bodyParser.json());
 
+//Palavra secreta de Encriptação
 const notThatSecretWinkWink = "335151ef644c6e346362645024cef959dfe69ef236e8a6e195023f34daaa4731a689c2ace8f0cc17ea01ea9f3e2fc15861c5e4b40171ddeaf89a7876bd115fc885d054d020477255c35a1687b1c3484c4a03caac79eb0d688d9321b4434c066cde6a5da8db2203a54c2f3d2e9c362a535dbd446c9f24190fdadc3c644af25a8d50ddabab233873101a15099788892ac09e6d0d7e5a27c43ad98a6f3dcf698d9d2d09caf5eab8ab46e23dbe403e35282fb1b9b292945aaae343081849760acc73b2d9543d7ba3159a8223fd1757a4b9baf10b98d3e4cced2160d2c6fab3c0c3636deb4319b2030ac3be7924dde993970f8143973b5857fe9d79b869d936488b2c"
 
-// Your web app's Firebase configuration
+// Configurção do Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyBSuwC06qmN2evJBTCtfEnGzBLXgji3LUI",
     authDomain: "tg-si-teams.firebaseapp.com",
@@ -27,25 +28,37 @@ const firebaseConfig = {
 };
 const firebaseApp = initializeApp(firebaseConfig)
 const db = getFirestore(firebaseApp)
+//Estado de login de um utilizador
 let loginState = false;
+//Informação acerca do utilizador carregado no login
 let userInfo={
     ID:"",
     Name:"",
     Email:""
 };
 
-//Fazer o listen
+//Abeertura da Porta para o servidor
 app.listen(3000)
+//Rota de acesso a tabela User da base de dados
 const users = collection(db, 'User');
+//Rota de acesso a tabela Cyphers da base de dados
 const chypers = collection(db, 'Cyphers');
+//Rota de acesso a tabela UsersCyphers da base de dados
 const loginedChypers = collection(db, 'UsersCyphers');
 
+// Tipo: GET
+// Input: N/A
+// Output: Carrega a página de login sendo essa a pagina principal quando se abre o servidor
 app.get('/', async (req, res) => {
     //app.use(serveStatic('./Pages/Login'));
-    res.sendFile('Main/Login_Register/login.html', { root: __dirname });
+    res.sendFile('Main/Login_Register/login.html', { root: __dirname });//Escrita de qual o ficheiro a enviar
 });
 
-
+//Descrição: Rota a qual recebe uma ação, se a ação for lgoin confirma os dados com a base de dados e deixa seguir. Se a ação não for 
+//    de login então vai adicionar o utilizador a base de dados
+// Tipo: POST
+// Input: string emailVar, string passwordVar, string action
+// Output: Carrega a página de login sendo essa a pagina principal quando se abre o servidor
 app.post('/',async (req, res, next) => {
     const login = {
         state: "false"
@@ -53,6 +66,7 @@ app.post('/',async (req, res, next) => {
     const register = {
         state: "false"
     }
+    //Confirma se a ação é login ou não
     if (req.body.action == "login") {
         console.log(req.body);
         let email = req.body.emailVar;
@@ -72,7 +86,7 @@ app.post('/',async (req, res, next) => {
                 console.log(querySnapshot.docs.length);
                 querySnapshot.forEach((doc) => {
                     const user = doc.data();
-                    if (user.Password == sha1(pass+user.salt)) {
+                    if (user.Password == sha1(pass+user.salt)) {//Confirma se a palavra passe + salt coincide com o hash que se encontra na base de dados
                         console.log('Login successful!');
                         const login={
                             state:"true"
@@ -94,7 +108,7 @@ app.post('/',async (req, res, next) => {
             console.error('Error fetching users:', error);
             res.status(500).send('Internal Server Error');
         }
-
+    // Adiciona o utilizador a base de dados
     } else {
         let email = req.body.emailVar;
         const pass = req.body.passwordVar;
@@ -138,28 +152,53 @@ app.post('/',async (req, res, next) => {
         }
     }
 })
+
+//Descrição: Carrega a página para visualizar as cifras antigas do utilizador
+// Tipo: GET
+// Input: N/A
+// Output: ficheiro MyCyphers.html
 app.get('/Home/MyCyphers', async (req, res) => {
     res.sendFile('Main/Home/myCyphers.html', { root: __dirname });
 });
+
+//Descrição: Carrega a página onde se encontram todas as chaves de cifra da hora atual
+// Tipo: GET
+// Input: N/A
+// Output: ficheiro home.html
 app.get('/Home', async (req, res) => {
     res.sendFile('Main/Home/home.html', { root: __dirname });
 });
 
+//Descrição: Carrega a página onde o utilizador consegue submeter ficheiros para cifrar 
+// Tipo: GET
+// Input: N/A
+// Output: ficheiro postWindow.html
 app.get('/Home/Post', async (req, res) => {
     res.sendFile('Main/Home/postWindow.html', { root: __dirname });
 });
+
+//Descrição: Rota que permite saber alguns dados acerca do utilizador em json
+// Tipo: GET
+// Input: N/A
+// Output: userInfo={ID,Name,Email}
+};
 app.get('/Home/Info', async (req, res) => {
     res.json(userInfo);
 });
 
+//Descrição: Rota devolve todas as chaves de cifra da hora atual e algumas informações
+// Tipo: GET
+// Input: N/A
+// Output: Lista de listas [[UserName,KEY,CypherType,HMACType],[...],...]
 app.get('/AtualCyphers', async (req, res) => {
     const querySnapshot = await getDocs(query(chypers));
     const chypersList = [];
     const diaAtual=new Date();
 
+    //ver para todas as chaves se elas são do dia e hora atual
     querySnapshot.forEach((doc) => {
         const dia=new Date(parseInt(doc.data().Time));
-
+        
         let sameDayAndTime = (
             dia.getUTCDate() === diaAtual.getUTCDate() &&
             dia.getUTCMonth() === diaAtual.getUTCMonth() &&
@@ -174,6 +213,10 @@ app.get('/AtualCyphers', async (req, res) => {
     res.send(chypersList);
 });
 
+//Descrição: Rota a qual revebe algumas informações e devolve a chave para cifrar o ficheiro
+// Tipo: POST
+// Input: string Email, Date Time, string UserName, string CypherType, string HMACType
+// Output: Lista de listas [[UserName,KEY,CypherType,HMACType],[...],...]
 app.post('/Home/Cypher', async (req, res,next) => {
     const email = req.body.Email;
     const time = req.body.Time;
@@ -190,11 +233,8 @@ app.post('/Home/Cypher', async (req, res,next) => {
     }
     if (!loginState){
         try {
-
-
-
-            res.send([sha256.sha256(email+time+notThatSecretWinkWink)]);
-            const docRef = await addDoc(chypers, cypher);
+            res.send([sha256.sha256(email+time+notThatSecretWinkWink)]);//envio do hash para cifrar o ficheiro composto pelo email, hora e segredo
+            const docRef = await addDoc(chypers, cypher);//adição da mesma a base de dados
             console.log('Cypher added with ID: ', docRef.id);
         } catch (error) {
             console.error('Error adding cypher: ', error);
@@ -235,7 +275,7 @@ app.post('/Home/Cypher', async (req, res,next) => {
                 "r3gre53ll0JMMa04/1/zsEpdXQrlonZcf53dLduFZw8BmLz37JetcymLCqU4WDlH" +
                 "1BoBAncq2Q7Dcnz+uNQK2D1IaMcIGoSxqO6XT2lHF+Aqyy6N0Cf7" +
                 "-----END RSA PRIVATE KEY-----";
-            res.send([sha256.sha256(email+time+notThatSecretWinkWink),private_Key]);
+            res.send([sha256.sha256(email+time+notThatSecretWinkWink),private_Key]);//envio do hash para cifrar o ficheiro composto pelo email, hora e segredo
             const docRef = await addDoc(chypers, cypher);
             const docRef2 = await addDoc(loginedChypers, userCypher);
             console.log('Cypher added with ID: ', docRef2.id);
@@ -247,6 +287,10 @@ app.post('/Home/Cypher', async (req, res,next) => {
     }
 });
 
+//Descrição: Tora que devolve todas as chaves de cifra antigas do utilizados
+// Tipo: GET
+// Input: N/A
+// Output: Lista de string Chave
 app.get('/MyCyphers', async (req, res) => {
     const diaAtual=new Date();
     let out=[];
@@ -265,6 +309,11 @@ app.get('/MyCyphers', async (req, res) => {
 app.get('/teste', async (req, res) => {
     console.log('teste');
 });
+
+//Descrição: Rota para fazer logout
+// Tipo: GET
+// Input: N/A
+// Output: redireciona para o /
 app.get('/logout', async (req, res) => {
     //app.use(serveStatic('./Pages/Login'));
     loginState = false;
@@ -276,6 +325,11 @@ app.get('/logout', async (req, res) => {
     res.redirect('/');
 
 });
+
+//Descrição: Rota caso o utilizador tente aceder a algo que nao existe
+// Tipo: GET
+// Input: N/A
+// Output: ficheiro 404.html
 app.use((req, res)=>{
     res.status(404).sendFile('Main/404/404.html',{root: __dirname})
 })
