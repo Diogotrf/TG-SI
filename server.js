@@ -181,7 +181,7 @@ app.get('/Home/Post', async (req, res) => {
 // Tipo: GET
 // Input: N/A
 // Output: userInfo={ID,Name,Email}
-};
+
 app.get('/Home/Info', async (req, res) => {
     res.json(userInfo);
 });

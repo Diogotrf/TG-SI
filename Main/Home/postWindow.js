@@ -87,48 +87,48 @@ function submitPost(event) {
 
 
 
-            var arrayBuffer = e.target.result;
-            var wordArray = CryptoJS.lib.WordArray.create(arrayBuffer);
+                var arrayBuffer = e.target.result;
+                var wordArray = CryptoJS.lib.WordArray.create(arrayBuffer);
 
-            // Encrypt the file
-            var encrypted = cypherType === "CBC" ? CryptoJS.AES.encrypt(wordArray, encryptionKey, { mode: CryptoJS.mode.CBC }).toString() : CryptoJS.AES.encrypt(wordArray, encryptionKey, { mode: CryptoJS.mode.CTR }).toString();
+                // Encrypt the file
+                var encrypted = cypherType === "CBC" ? CryptoJS.AES.encrypt(wordArray, encryptionKey, { mode: CryptoJS.mode.CBC }).toString() : CryptoJS.AES.encrypt(wordArray, encryptionKey, { mode: CryptoJS.mode.CTR }).toString();
 
-            //create a hmac for the file
-            var hmac = CryptoJS.HmacSHA256(encrypted, encryptionKey).toString();
+                //create a hmac for the file
+                var hmac = CryptoJS.HmacSHA256(encrypted, encryptionKey).toString();
 
-            //combine the hmac and the encrypted file
-            encrypted = hmac + encrypted;
-
-
-
-
-
-            var rsa = new RSAKey();
-            rsa.readPrivateKeyFromPEMString(privateKey);
+                //combine the hmac and the encrypted file
+                encrypted = hmac + encrypted;
 
 
 
 
 
-            var signature = new KJUR.crypto.Signature({ "alg": "SHA256withRSA" });
-            signature.init(privateKey);
-            signature.updateString(encrypted);
-            var rsaSignature = signature.sign();
-
-            encrypted = rsaSignature + encrypted;
+                var rsa = new RSAKey();
+                rsa.readPrivateKeyFromPEMString(privateKey);
 
 
 
 
-            // Create a blob from the encrypted data
-            var encryptedBlob = new Blob([encrypted], { type: "application/octet-stream" });
+
+                var signature = new KJUR.crypto.Signature({ "alg": "SHA256withRSA" });
+                signature.init(privateKey);
+                signature.updateString(encrypted);
+                var rsaSignature = signature.sign();
+
+                encrypted = rsaSignature + encrypted;
 
 
-            // Create a link element to download the file
-            var link = document.createElement("a");
-            link.href = window.URL.createObjectURL(encryptedBlob);
-            link.download = file.name + ".aes";
-            link.click();
+
+
+                // Create a blob from the encrypted data
+                var encryptedBlob = new Blob([encrypted], { type: "application/octet-stream" });
+
+
+                // Create a link element to download the file
+                var link = document.createElement("a");
+                link.href = window.URL.createObjectURL(encryptedBlob);
+                link.download = file.name + ".enc";
+                link.click();
             };
             reader.readAsArrayBuffer(file);
         });

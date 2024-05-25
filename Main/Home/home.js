@@ -84,14 +84,14 @@ function htmlPosts(username, key, cyphertype, hmactype) {
 
 
                 var rsaPublicKey = "-----BEGIN PUBLIC KEY-----"+
-"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyH9GdTsMIJoDNz4olC+6"+
-"sDf71y+6qUYvvc9nJMGKx+Ys/2r9bGa/3pimHgK88eoMEHv1io/CNQCyjJ5Vhe5C"+
-"ZmwdGT6gmjYnQzmbYwtM8kYKUckJBpSFoOTNdsEaS6TY+hhV1q2LLhpIF2m7M3Sb"+
-"mWdRemlawUM62u8m5G1Uxz9645tMqXeEfuoTbUW45+/Tif5tktn/DunzvI8ay18g"+
-"lHDx+nI+7z9BWzOxqhst3gXhE78xNImw2LXRZtv3LzTcV18Q966BdqT6OdvSPvTy"+
-"Y/gLVzzB4nlLZYPnEcIlgAMs3+SqtxIYJc4o0cLLb43kueEnOQ8nSFTF9Q9OtErk"+
-"oQIDAQAB"+
-"-----END PUBLIC KEY-----";
+                    "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyH9GdTsMIJoDNz4olC+6"+
+                    "sDf71y+6qUYvvc9nJMGKx+Ys/2r9bGa/3pimHgK88eoMEHv1io/CNQCyjJ5Vhe5C"+
+                    "ZmwdGT6gmjYnQzmbYwtM8kYKUckJBpSFoOTNdsEaS6TY+hhV1q2LLhpIF2m7M3Sb"+
+                    "mWdRemlawUM62u8m5G1Uxz9645tMqXeEfuoTbUW45+/Tif5tktn/DunzvI8ay18g"+
+                    "lHDx+nI+7z9BWzOxqhst3gXhE78xNImw2LXRZtv3LzTcV18Q966BdqT6OdvSPvTy"+
+                    "Y/gLVzzB4nlLZYPnEcIlgAMs3+SqtxIYJc4o0cLLb43kueEnOQ8nSFTF9Q9OtErk"+
+                    "oQIDAQAB"+
+                    "-----END PUBLIC KEY-----";
 
 
 
@@ -120,7 +120,7 @@ function htmlPosts(username, key, cyphertype, hmactype) {
 //
 //
                 ////get hmac
-                var hmaclength = 64;
+                var hmaclength = hmactype === '256' ? 64 : 128;
                 var hmac = combinedData.substring(0, hmaclength);
                 encryptedDataString = combinedData.substring(hmaclength);
 
@@ -153,7 +153,7 @@ function htmlPosts(username, key, cyphertype, hmactype) {
                 var url = URL.createObjectURL(blob);
                 var a = document.createElement('a');
                 a.href = url;
-                a.download = file.name.replace('.aes', '');
+                a.download = file.name.replace('.enc', '');
                 a.click();
             };
 
@@ -183,9 +183,9 @@ function htmlPosts(username, key, cyphertype, hmactype) {
     return postDiv;
 }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        fetch('/Home/Info')
-            .then(response => response.json())
+document.addEventListener('DOMContentLoaded', () => {
+    fetch('/Home/Info')
+        .then(response => response.json())
         .then(data => {
             if (data.Name == '') {
                 document.getElementById("username").textContent = 'Guest';
