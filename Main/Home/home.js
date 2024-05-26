@@ -90,7 +90,7 @@ function htmlPosts(username, key, cyphertype, hmactype) {
                     "oQIDAQAB"+
                     "-----END PUBLIC KEY-----";
 
-                // Read the file as an ArrayBuffer and decrypt it
+                // Reads the file as an ArrayBuffer and decrypt it
                 var encryptedData = e.target.result;
                 var textDecoder = new TextDecoder("utf-8");
                 var encryptedDataString = textDecoder.decode(encryptedData);
@@ -122,22 +122,28 @@ function htmlPosts(username, key, cyphertype, hmactype) {
                     return;
                 }
 
-                // Decrypt the data
+                // Decrypts the data
                 var desencryptedData;
                 if (cyphertype === 'CBC') {
                     desencryptedData = CryptoJS.AES.decrypt(encryptedDataString, key, { mode: CryptoJS.mode.CBC });
-                    desencryptedData = desencryptedData.toString(CryptoJS.enc.Utf8);
                 }
                 else {
                     desencryptedData = CryptoJS.AES.decrypt(encryptedDataString, key, { mode: CryptoJS.mode.CTR });
-                    desencryptedData = desencryptedData.toString(CryptoJS.enc.Utf8);
                 }
 
-                desencryptedData = desencryptedData.toString(CryptoJS.enc.Utf8);
+                // Converts the decrypted data to an ArrayBuffer
+                var desecryptedBytes = desencryptedData.words.map(word => [
+                    (word >> 24) & 0xFF,
+                    (word >> 16) & 0xFF,
+                    (word >> 8) & 0xFF,
+                    word & 0xFF
+                ]).reduce((acc, val) => acc.concat(val), []);
 
+                // Creates a Uint8Array from the decrypted data
+                var desencryptedArrayBuffer = new Uint8Array(desecryptedBytes);
 
-                // Create a blob from the decrypted data
-                var blob = new Blob([desencryptedData], { type: 'text/plain' });
+                // Creates a blob from the decrypted data
+                var blob = new Blob([desencryptedArrayBuffer], { type: 'application/pdf' });
                 var url = URL.createObjectURL(blob);
                 var a = document.createElement('a');
                 a.href = url;
@@ -168,7 +174,7 @@ function htmlPosts(username, key, cyphertype, hmactype) {
 // Function to handle the user's information
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Fetch the user's information
+    // Fetches the user's information
     fetch('/Home/Info')
         .then(response => response.json())
         .then(data => {
@@ -192,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => {
             console.error('Erro ao buscar as informações do usuário:', error);
         });
-    // Fetch the user's cyphers
+    // Fetches the user's cyphers
     fetch('/AtualCyphers')
         .then(response => response.json())
         .then(data => {
