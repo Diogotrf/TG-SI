@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch('/Home/Info')
         .then(response => response.json())
         .then(data => {
+            // Redirects to the home page if the user is not logged in
             if (data.Name == '') {
                 window.location.href = "/Home";
             }
