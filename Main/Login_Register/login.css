@@ -1,6 +1,9 @@
-/* ===== Google Font Import - Poformsins ===== */
+/* CSS for the login and register page */
+
+/* Importing the font from google fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
+/* Resetting the default margin, padding, box-sizing and font-family */
 *{
     margin: 0;
     padding: 0;
@@ -8,6 +11,7 @@
     font-family: 'Poppins', sans-serif;
 }
 
+/* Styles the body */
 body{
     height: 100vh;
     display: flex;
@@ -16,6 +20,7 @@ body{
     background-color: #4070f4;
 }
 
+/* Styles the container */
 .container{
     position: relative;
     max-width: 430px;
@@ -35,7 +40,6 @@ body{
     transition: height 0.2s ease;
 }
 
-
 .container .form{
     width: 50%;
     padding: 30px;
@@ -53,6 +57,7 @@ body{
     opacity: 0;
     transition: opacity 0.09s ease;
 }
+
 .container.active .signup{
     opacity: 1;
     transition: opacity 0.2s ease;
@@ -61,6 +66,7 @@ body{
 .container.active .forms{
     height: 600px;
 }
+
 .container .form .title{
     position: relative;
     font-size: 27px;
@@ -78,6 +84,7 @@ body{
     border-radius: 25px;
 }
 
+/* Styles the input fields */
 .form .input-field{
     position: relative;
     height: 50px;
@@ -124,6 +131,7 @@ body{
     padding: 10px;
 }
 
+/* Styles the checkboxes */
 .form .checkbox-text{
     display: flex;
     align-items: center;
@@ -141,6 +149,7 @@ body{
     accent-color: #4070f4;
 }
 
+/* Styles the text from the forms */
 .form .text{
     color: #333;
     font-size: 14px;
@@ -150,6 +159,7 @@ body{
     color: #4070f4;
     text-decoration: none;
 }
+
 .form a:hover{
     text-decoration: underline;
 }
@@ -158,6 +168,7 @@ body{
     margin-top: 35px;
 }
 
+/* Styles the buttons */
 .form .button input{
     border: none;
     color: #fff;
@@ -174,6 +185,7 @@ body{
     background-color: #265df2;
 }
 
+/* Styles the login-signup text */
 .form .login-signup{
     margin-top: 30px;
     text-align: center;

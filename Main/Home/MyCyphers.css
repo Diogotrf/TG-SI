@@ -1,15 +1,20 @@
+/* CSS for the MyCyphers page */
+
+/* General */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Styles the body */
 body {
     --primary-color: #50b7f5;
     --background: #e6ecf0;
     background-color: #4070f4;
 }
 
+/* Styles the sidebar */
 .sidebarOption {
     display: flex;
     align-items: center;
@@ -49,6 +54,7 @@ body {
     margin-top: 20px;
 }
 
+/* Styles the feed */
 body {
     display: flex;
     height: 100vh;
@@ -59,21 +65,14 @@ body {
 }
 
 .sidebar {
-    //*border-right: 1px solid var(--background);*//
+    /*border-right: 1px solid var(--background);*/
     flex: 0.2;
-
     min-width: 250px;
     margin-top: 20px;
     padding-left: 20px;
     padding-right: 20px;
 }
 
-.fa-twitter {
-    color: var(--primary-color);
-    font-size: 30px;
-}
-
-/* feed */
 .feed {
     flex: 0.5;
     //*border-right: 1px solid var(--background);*//
@@ -101,7 +100,7 @@ body {
     scrollbar-width: none;
 }
 
-/* tweet box */
+/* Styles the post box */
 .postbox__input img {
     border-radius: 50%;
     height: 40px;
@@ -153,6 +152,7 @@ body {
     background-color: #4095c6;
 }
 
+/* Styles the logout box */
 .logoutBox__logoutButton {
     background-color: var(--primary-color);
     border: none;
@@ -170,7 +170,7 @@ body {
     background-color: #4095c6;
 }
 
-/* post */
+/* Styles the post */
 .post__avatar img {
     border-radius: 50%;
     height: 40px;
@@ -227,7 +227,7 @@ body {
     padding: 20px;
 }
 
-/* widgets */
+/* Styles the widgets */
 .widgets {
     flex: 0.3;
 }
@@ -264,6 +264,7 @@ body {
     font-weight: 800;
 }
 
+/* Styles the home button */
 .homeButton{
     background-color: var(--primary-color);
     border: none;

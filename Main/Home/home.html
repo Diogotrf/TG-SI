@@ -26,7 +26,7 @@
         <button id="logout_button" type="button" class="logoutBox__logoutButton" onclick="window.location.href = '/logout'">Logout</button>
     </div>
 
-    <!-- postbox starts -->
+    <!-- Postbox starts -->
     <div class="postBox">
         <form>
             <div class="postbox__input">
@@ -44,19 +44,19 @@
                 <span id="datetime"></span>
             </div>
             <script>
-                // create a function to update the date and time
+                // Creates a function to update the date and time
                 function updateDateTime() {
-                    // create a new `Date` object
+                    // Creates a new `Date` object
                     const now = new Date();
 
-                    // get the current date and time as a string
+                    // Gets the current date and time as a string
                     const currentDateTime = now.toLocaleString();
 
-                    // update the `textContent` property of the `span` element with the `id` of `datetime`
+                    // Updates the `textContent` property of the `span` element with the `id` of `datetime`
                     document.querySelector('#datetime').textContent = currentDateTime;
                 }
 
-                // call the `updateDateTime` function every second
+                // Calls the `updateDateTime` function every second
                 setInterval(updateDateTime, 1000);
             </script>
             <!-- When button is clicked, call the function to open the post window -->
@@ -65,9 +65,9 @@
             </div>
         </form>
     </div>
-    <!-- postbox ends -->
+    <!-- Postbox ends -->
 </div>
-<!-- feed ends -->
+<!-- Feed ends -->
 <script src="home.js"></script>
 </body>
 </html>

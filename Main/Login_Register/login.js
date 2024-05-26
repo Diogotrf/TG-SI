@@ -5,7 +5,7 @@ const container = document.querySelector(".container"),
       login = document.querySelector(".login-link");
 
 
-    //   js code to show/hide password and change icon
+    // JS code to show and hide password
     pwShowHide.forEach(eyeIcon =>{
         eyeIcon.addEventListener("click", ()=>{
             pwFields.forEach(pwField =>{
@@ -26,16 +26,15 @@ const container = document.querySelector(".container"),
         })
     })
 
-    // js code to appear signup and login form
+    // Event listener to switch between login and sign up
     signUp.addEventListener("click", ( )=>{
         container.classList.add("active");
-
     });
     login.addEventListener("click", ( )=>{
         container.classList.remove("active");
     });
 
-// In-memory user database
+// Database of users (for demonstration purposes)
 const users = [
     { username: 'user1', email: 'user1@example.com', password: 'password1' },
     { username: 'user2', email: 'user2@example.com', password: 'password2' }
@@ -55,19 +54,19 @@ function loginUser(username, password) {
 
 // Function to handle registration
 function registerUser(name, email, password) {
-    // Check if the email is already registered
+    // Checks if the email is already registered
     const existingUser = users.find(user => user.email === email);
     if (existingUser) {
         alert('Email already registered. Please use a different email.');
         return;
     }
-
-    // Add the new user to the database
+    // Adds a new user to the database
     const newUser = { username: name, email: email, password: password };
     users.push(newUser);
     alert('Registration successful! You can now login.');
 }
 
+// Event listener to handle form submissions
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('loginForm');
     const signupForm = document.getElementById('signupForm');
@@ -88,12 +87,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const password = signupForm.querySelector('input[id="password"]').value;
         const confirmPassword = signupForm.querySelector('input[id="confirmPassword"]').value;
         register(name, email, password);
-        // Reset page to login form
+        // Resets page to login form
         container.classList.remove("active");
         });
 });
 
-
+// Function to handle login
 function login1(email, password){
     let status="true";
 
@@ -112,6 +111,8 @@ function login1(email, password){
             }
         });
 }
+
+// Function to handle registration
 function register(name, email, password){
     let status="true";
     $.ajax({
@@ -130,6 +131,8 @@ function register(name, email, password){
             }
         });
 }
+
+// Function to handle guest login
 function enterasGuest(){
     window.location.href = '/logout';
     window.location.href = '/Home';

@@ -1,4 +1,4 @@
-// Get the current time
+// Gets the current date and time
 var currentTime = new Date();
 var year = currentTime.getFullYear();
 var month = ('0' + (currentTime.getMonth() + 1)).slice(-2);
@@ -6,10 +6,10 @@ var day = ('0' + currentTime.getDate()).slice(-2);
 var hours = ('0' + currentTime.getHours()).slice(-2);
 var time = year + "-" + month + "-" + day + "T" + hours;
 
-// Set the value of the time input field
+// Sets the current time in the input field
 document.getElementById("time").value = time;
 
-// Set the value of the username and email input fields
+// Sets the value of the username and email input fields
 document.addEventListener('DOMContentLoaded', () => {
     fetch('/Home/Info')
         .then(response => response.json())
@@ -29,17 +29,18 @@ document.addEventListener('DOMContentLoaded', () => {
 function submitPost(event) {
     event.preventDefault();
 
-    // Get the post data from the form
+    // Gets the values from the input fields
     var username = document.getElementById("username").value;
     var email = document.getElementById("email").value;
     var time = document.getElementById("time").value;
     var cypherType = document.getElementById("cypherType").value;
     var hmacType = document.getElementById("hmacType").value;
 
-    // Get the file
+    // Gets the file from the input field
     var fileInput = document.getElementById('file');
     var file = fileInput.files[0];
 
+    // Validates the input fields
     if (new Date(time) <= new Date() || isNaN(new Date(time))) {
         alert("Please select a correct time");
         return;
@@ -51,7 +52,7 @@ function submitPost(event) {
 
     alert("File uploaded successfully, it will be downloaded");
 
-    // Create FormData object to send file data along with other form data
+    // Creates a FormData object to send the post data
     var formData = new FormData();
     formData.append('file', file);
     formData.append('username', username);
@@ -60,7 +61,7 @@ function submitPost(event) {
     formData.append('cypherType', cypherType);
     formData.append('hmacType', hmacType);
 
-    // Send the post data to the server
+    // Sends the post data to the server
     $.ajax({
         type: 'POST',
         url: "http://localhost:3000/Home/Cypher",
@@ -73,58 +74,47 @@ function submitPost(event) {
         }
     })
         .done(function (response) {
-            console.log(response[0]); // This value is the key to encrypt the file
+            console.log(response[0]); // This value is the key to encrypt the file that will appear in the main page
 
             var encryptionKey = response[0];
             var privateKey = response[1];
 
-
-
-
-            // Read the file as an ArrayBuffer
+            // Reads the file as an ArrayBuffer
             var reader = new FileReader();
+
+            // Encrypts the file
             reader.onload = function(e) {
-
-
-
+                // Gets the array buffer of the file
                 var arrayBuffer = e.target.result;
                 var wordArray = CryptoJS.lib.WordArray.create(arrayBuffer);
 
-                // Encrypt the file
+                // Encrypts the file
                 var encrypted = cypherType === "CBC" ? CryptoJS.AES.encrypt(wordArray, encryptionKey, { mode: CryptoJS.mode.CBC }).toString() : CryptoJS.AES.encrypt(wordArray, encryptionKey, { mode: CryptoJS.mode.CTR }).toString();
 
-                //create a hmac for the file
+                // Calculates its HMAC
                 var hmac = CryptoJS.HmacSHA256(encrypted, encryptionKey).toString();
 
-                //combine the hmac and the encrypted file
+                // Appends the HMAC to the encrypted data
                 encrypted = hmac + encrypted;
 
-
-
-
-
+                // Encrypts the key with the user's private key
                 var rsa = new RSAKey();
                 rsa.readPrivateKeyFromPEMString(privateKey);
 
-
-
-
-
+                //
                 var signature = new KJUR.crypto.Signature({ "alg": "SHA256withRSA" });
                 signature.init(privateKey);
                 signature.updateString(encrypted);
+
                 var rsaSignature = signature.sign();
 
+                // Appends the RSA signature to the encrypted data
                 encrypted = rsaSignature + encrypted;
 
-
-
-
-                // Create a blob from the encrypted data
+                // Creates a blob from the encrypted data
                 var encryptedBlob = new Blob([encrypted], { type: "application/octet-stream" });
 
-
-                // Create a link element to download the file
+                // Creates a link to download the encrypted file and automatically clicks on it
                 var link = document.createElement("a");
                 link.href = window.URL.createObjectURL(encryptedBlob);
                 link.download = file.name + ".enc";
@@ -134,7 +124,7 @@ function submitPost(event) {
         });
 }
 
-// Add event listener to the submit button
+// Adds an event listener to the post button
 document.getElementById("postButton").addEventListener("click", submitPost);
 
 // Function to go back to the home page

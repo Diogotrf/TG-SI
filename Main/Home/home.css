@@ -1,15 +1,20 @@
+/* CSS for the Home page */
+
+/* Styles the entire page */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Styles the body */
 body {
     --primary-color: #50b7f5;
     --background: #e6ecf0;
     background-color: #4070f4;
 }
 
+/* Styles the sidebar */
 .sidebarOption {
     display: flex;
     align-items: center;
@@ -67,12 +72,7 @@ body {
     padding-right: 20px;
 }
 
-.fa-twitter {
-    color: var(--primary-color);
-    font-size: 30px;
-}
-
-/* feed */
+/* Styles the feed */
 .feed {
     flex: 0.5;
     min-width: fit-content;
@@ -95,6 +95,7 @@ body {
     flex-grow: 1;  /* Allows the 'Home' header to take up remaining space, pushing buttons to the right */
 }
 
+/* Styles the logout button */
 .logoutBox__logoutButton, .mycypherBox__mycypherButton {
     background-color: red;
     border: none;
@@ -115,6 +116,7 @@ body {
     background-color: #4095c6;
 }
 
+/* Styles the date and time */
 .datetime-container {
     text-align: center; /* Centers text (and inline elements) horizontally within the container */
     width: 100%;
@@ -125,8 +127,6 @@ body {
     font-size: 16px; /* Set the font size as needed */
 }
 
-
-
 .feed::-webkit-scrollbar {
     display: none;
 }
@@ -136,7 +136,7 @@ body {
     scrollbar-width: none;
 }
 
-/* tweet box */
+/* Styles the post box */
 .postbox__input img {
     border-radius: 50%;
     width: 15%;
@@ -157,7 +157,6 @@ body {
     width: 100%; /* Garante que o contêiner tome a largura total */
 }
 
-
 .postBox {
     padding-bottom: 10px;
     border-bottom: 8px solid var(--background);
@@ -170,7 +169,6 @@ body {
     display: flex;
     flex-direction: column;
 }
-
 
 .Box__input {
     display: flex;
@@ -193,7 +191,7 @@ body {
     background-color: #4095c6;
 }
 
-/* post */
+/* Styles the post */
 .post__avatar img {
     border-radius: 50%;
     height: 40px;
@@ -250,7 +248,7 @@ body {
     padding: 20px;
 }
 
-/* widgets */
+/* Styles the widgets */
 .widgets {
     flex: 0.3;
 }
