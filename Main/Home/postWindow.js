@@ -92,7 +92,7 @@ function submitPost(event) {
                 var encrypted = cypherType === "CBC" ? CryptoJS.AES.encrypt(wordArray, encryptionKey, { mode: CryptoJS.mode.CBC }).toString() : CryptoJS.AES.encrypt(wordArray, encryptionKey, { mode: CryptoJS.mode.CTR }).toString();
 
                 // Calculates its HMAC
-                var hmac = CryptoJS.HmacSHA256(encrypted, encryptionKey).toString();
+                var hmac = hmacType === "256" ? CryptoJS.HmacSHA256(encrypted, encryptionKey).toString() : CryptoJS.HmacSHA512(encrypted, encryptionKey).toString();
 
                 // Appends the HMAC to the encrypted data
                 encrypted = hmac + encrypted;

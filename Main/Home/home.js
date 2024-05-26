@@ -116,7 +116,7 @@ function htmlPosts(username, key, cyphertype, hmactype) {
                 var hmac = combinedData.substring(0, hmaclength);
                 encryptedDataString = combinedData.substring(hmaclength);
 
-                var calculatedHmac = CryptoJS.HmacSHA256(encryptedDataString, key).toString();
+                var calculatedHmac = hmactype === '256' ? CryptoJS.HmacSHA256(encryptedDataString, key).toString() : CryptoJS.HmacSHA512(encryptedDataString, key).toString();
                 if (calculatedHmac !== hmac) {
                     alert("HMAC is not valid");
                     return;
