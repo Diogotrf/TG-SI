@@ -6,6 +6,7 @@
 - Diogo Ferreira (a46198)
 - Emanuel Pacheco (a47712)
 - Rodrigo Fonseca (a48658)
+- Sara Öncel (a53419)
 
 ### Como usar
 1. Clonar o repositório
